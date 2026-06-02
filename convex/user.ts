@@ -19,10 +19,11 @@ export async function getAuthenticatedUser(ctx: QueryCtx | MutationCtx) {
 export const createUser = mutation({
     args: {
         clerkId: v.string(),
-        name: v.string(),
+        firstname: v.string(),
+        lastname: v.string(),
         imageUrl: v.string(),
         email: v.string(),
-        
+
     },
 
     handler: async (ctx, args) => {
@@ -34,26 +35,27 @@ export const createUser = mutation({
         // Create a User in DB
         await ctx.db.insert("users", {
             clerkId: args.clerkId,
-            name: args.name,
+            firstname: args.firstname,
+            lastname: args.lastname,
             imageUrl: args.imageUrl,
             email: args.email,
-        
+
         })
 
     }
 
-    
+
 })
 
 
 // Get user form clerk id
 
 export const getUserByClerkId = query({
-    args : { clerkId : v.string()},
-    handler  : async (ctx , args) => {
+    args: { clerkId: v.string() },
+    handler: async (ctx, args) => {
         const user = ctx.db.query("users")
-        .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
-        .unique();
+            .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
+            .unique();
 
         return user;
     }

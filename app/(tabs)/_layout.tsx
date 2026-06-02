@@ -1,15 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useAuth } from '@clerk/clerk-expo'
-import { Tabs } from 'expo-router';
-import Ionicons from '@expo/vector-icons/Ionicons';
+
 import { MaterialIcons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Tabs } from 'expo-router';
+import React from 'react';
 
 
 const TabsLayout = () => {
-    const { userId } = useAuth();
-
-
+  
 
     return (
         <Tabs screenOptions={{ headerShown: false }}>
@@ -18,8 +15,8 @@ const TabsLayout = () => {
                 tabBarIcon: ({ size, color }) => <MaterialIcons name="edit-note" size={size} color={color} />
             }} />
 
-            <Tabs.Screen name='search' options={{
-                tabBarIcon: ({ size, color }) => <Ionicons name="search" size={size} color={color} />
+            <Tabs.Screen name='create' options={{
+                tabBarIcon: ({ size, color }) => <Ionicons name="create" size={size} color={color} />
             }} />
 
             <Tabs.Screen name='favorites' options={{

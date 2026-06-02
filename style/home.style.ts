@@ -131,7 +131,17 @@ export const styles = StyleSheet.create({
   workCategory: {
     backgroundColor: "#EAF3FF",
   },
-
+noteCategory: {
+  marginTop: 8,
+  fontSize: 13,
+  fontWeight: "600",
+  color: "#7C4DFF",
+  paddingHorizontal: 10,
+  paddingVertical: 4,
+  borderRadius: 10,
+  alignSelf: "flex-start",
+  backgroundColor: "#F3EEFF",
+},
   // Pinned Note
   pinnedCard: {
     marginTop: 10,
