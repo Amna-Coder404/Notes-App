@@ -16,7 +16,7 @@ export default defineSchema({
         clerkId: v.string(),
         title: v.optional(v.string()),
         content: v.string(),
-        categories: v.string(),
+        categories: v.array(v.string()),
         isFavorite: v.boolean(), // ⭐ important
         isPinned: v.boolean(),   // optional (extra feature)
 

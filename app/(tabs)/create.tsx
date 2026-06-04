@@ -20,10 +20,8 @@ const categories = [
 
 
 const Create = () => {
-
   const { theme } = useTheme();
   const styles = createStyles(theme);
-
   const {  dbUser } = useDbUser();
 
 
@@ -36,9 +34,11 @@ const Create = () => {
   const [loading, setLoading] = useState(false);
 
 
+ 
+
   const handleCreateNotes = async () => {
     if (!dbUser) return;
-    if (!title.trim() || !content.trim()) return;
+    if (!content.trim()) return;
     if (loading) return;
 
     setLoading(true);
@@ -46,7 +46,7 @@ const Create = () => {
       await createNote({
         clerkId: dbUser?.clerkId,
         title: title,
-        categories: category,
+        categories: category ? [category] : [],
         content: content
       })
 

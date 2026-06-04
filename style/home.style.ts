@@ -90,17 +90,19 @@ export const createHomeStyles = (theme: any) =>
     },
 
     categoriesRow: {
+      backgroundColor: "red",
       flexDirection: "row",
-      justifyContent: "space-between",
+      gap: 10,
     },
 
     categoryCard: {
-      width: 78,
+      width: 100,
       height: 85,
       borderRadius: 18,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: theme.card,
+      marginRight: 10
     },
 
     categoryTitle: {
@@ -115,7 +117,11 @@ export const createHomeStyles = (theme: any) =>
       fontWeight: "700",
       color: theme.text,
     },
-
+    categoryText: {
+      color: theme.mutedText,
+      fontSize: 12,
+      fontWeight: "bold"
+    },
     noteCategory: {
       marginTop: 8,
       fontSize: 13,
@@ -137,7 +143,7 @@ export const createHomeStyles = (theme: any) =>
       borderColor: theme.border,
     },
 
-    noteHeader: {
+    noteBetween: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
@@ -171,4 +177,5 @@ export const createHomeStyles = (theme: any) =>
       justifyContent: "center",
       alignItems: "center",
     },
+   
   });

@@ -5,7 +5,7 @@ export const createNote = mutation({
   args: {
     clerkId: v.string(),
      title: v.optional(v.string()),
-    categories: v.string(),
+  categories: v.array(v.string()), 
     content: v.string(),
   },
 
@@ -26,7 +26,7 @@ export const editNotes = mutation({
   args: {
     noteId: v.id("notes"),
       title: v.optional(v.string()),
-    categories: v.string(),
+     categories: v.array(v.string()), 
     content: v.string(),
   },
 
@@ -124,11 +124,12 @@ export const getPinnedNotes = query({
   },
 
   handler: async (ctx, args) => {
-    const notes = await ctx.db.query("notes")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
+    return await ctx.db
+      .query("notes")
+      .withIndex("by_clerkId", (q) =>
+        q.eq("clerkId", args.clerkId)
+      )
+      .filter((q) => q.eq(q.field("isPinned"), true))
       .collect();
-
-    return notes.filter((note) => note.isPinned);
-
   },
-})
+});

@@ -1,20 +1,26 @@
 import AllNotes from '@/components/AllNotes'
+import Loader from '@/components/Loader'
 import { useDbUser } from '@/hooks/useDbUser'
 import { useTheme } from '@/hooks/useTheme'
 import { createHomeStyles } from '@/style/home.style'
 
-
 import React from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
-const Home = () => {
-  const {theme} = useTheme();
-   const styles = createHomeStyles(theme);
 
-  const {  dbUser } = useDbUser();
+const Home = () => {
+  const { theme } = useTheme();
+  const styles = createHomeStyles(theme);
+
+  const { dbUser } = useDbUser();
+
+
+
   if (!dbUser) {
-    return <Text>Loading...</Text>;
+    return <Loader />;
   };
+
+
 
 
   return (
