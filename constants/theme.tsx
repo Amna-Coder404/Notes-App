@@ -2,7 +2,7 @@ export const lightTheme = {
   bg: "#FFFFFF",
   text: "#111111",
   mutedText: "#8A8A8A",
-
+  
   card: "#FFFFFF",
   border: "#E5E5E5",
 

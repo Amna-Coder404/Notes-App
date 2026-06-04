@@ -6,7 +6,7 @@ export const createHomeStyles = (theme: any) =>
       flex: 1,
       backgroundColor: theme.bg,
       paddingHorizontal: 20,
-      paddingTop: 60,
+      paddingVertical: 20,
     },
 
     header: {
@@ -14,7 +14,11 @@ export const createHomeStyles = (theme: any) =>
       justifyContent: "space-between",
       alignItems: "center",
     },
-
+    profilePic: {
+      width: 40,
+       height: 40, 
+       borderRadius: 20
+    },
     greeting: {
       fontSize: 28,
       fontWeight: "700",
@@ -177,5 +181,18 @@ export const createHomeStyles = (theme: any) =>
       justifyContent: "center",
       alignItems: "center",
     },
-   
+    dropDownNotes: {
+      position: 'absolute',
+      right: 0,
+      top: 30,
+      backgroundColor: theme.card,
+      padding: 10,
+      borderRadius: 10,
+      width: 150,
+      elevation: 5,
+      zIndex: 999,
+    },
+    editBtn: {
+      flexDirection: 'row', gap: 10, padding: 8
+    }
   });
