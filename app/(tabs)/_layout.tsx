@@ -1,36 +1,71 @@
-
-import { MaterialIcons } from '@expo/vector-icons';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
-import React from 'react';
-
+import { MaterialIcons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Tabs } from "expo-router";
+import React from "react";
+import { useTheme } from "@/hooks/useTheme";
 
 const TabsLayout = () => {
-  
+  const { theme } = useTheme();
 
-    return (
-        <Tabs screenOptions={{ headerShown: false }}>
-            <Tabs.Screen name='index' options={{
-                title: "Notes",
-                tabBarIcon: ({ size, color }) => <MaterialIcons name="edit-note" size={size} color={color} />
-            }} />
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
 
-            <Tabs.Screen name='create' options={{
-                tabBarIcon: ({ size, color }) => <Ionicons name="create" size={size} color={color} />
-            }} />
+        //  TAB BAR BACKGROUND
+        tabBarStyle: {
+          backgroundColor: theme.card,
+          borderTopWidth: 0,
+          height: 60,
+          borderTopColor :theme.mutedText,
+        },
 
-            <Tabs.Screen name='favorites' options={{
-                tabBarIcon: ({ size, color }) => <Ionicons name="heart" size={size} color={color} />
-            }} />
+        //  ICON COLORS
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.mutedText,
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Notes",
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name="edit-note" size={size} color={color} />
+          ),
+        }}
+      />
 
+      <Tabs.Screen
+        name="create"
+        options={{
+          title: "Create",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="create" size={size} color={color} />
+          ),
+        }}
+      />
 
-            <Tabs.Screen name='profile' options={{
-                tabBarIcon: ({ size, color }) => <Ionicons name="person" size={size} color={color} />
-            }} />
+      <Tabs.Screen
+        name="favorites"
+        options={{
+          title: "Fav",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="heart" size={size} color={color} />
+          ),
+        }}
+      />
 
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+};
 
-        </Tabs>
-    )
-}
-
-export default TabsLayout
+export default TabsLayout;

@@ -1,27 +1,27 @@
 import { api } from '@/convex/_generated/api'
-import { styles } from '@/style/home.style'
-import { useUser } from '@clerk/clerk-expo'
+import { useDbUser } from '@/hooks/useDbUser'
+import { useTheme } from '@/hooks/useTheme'
+import { createHomeStyles } from '@/style/home.style'
+
 import { useQuery } from 'convex/react'
 import { formatDistanceToNow } from "date-fns"
 import React from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 
 const AllNotes = () => {
-    const { user } = useUser();
+    const { theme } = useTheme();
+    const styles = createHomeStyles(theme);
 
-    const dbUser = useQuery(
-        api.user.getUserByClerkId,
-        user?.id ? { clerkId: user.id } : "skip"
-    );
+    const { dbUser } = useDbUser();
 
     const notes = useQuery(
         api.notes.getAllNotes,
         dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip"
     );
     if (!dbUser) {
-        return <Text>Loading user...</Text>;
-    }
+        return <Text>Loading...</Text>;
+    };
 
 
     return (

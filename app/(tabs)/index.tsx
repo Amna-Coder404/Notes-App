@@ -1,18 +1,17 @@
 import AllNotes from '@/components/AllNotes'
-import { api } from '@/convex/_generated/api'
-import { styles } from '@/style/home.style'
-import { useUser } from '@clerk/clerk-expo'
-import { Ionicons } from '@expo/vector-icons'
-import { useMutation, useQuery } from 'convex/react'
-import React, { useState } from 'react'
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useDbUser } from '@/hooks/useDbUser'
+import { useTheme } from '@/hooks/useTheme'
+import { createHomeStyles } from '@/style/home.style'
+
+
+import React from 'react'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 const Home = () => {
-  const { user } = useUser();
-  const dbUser = useQuery(
-    api.user.getUserByClerkId,
-    user?.id ? { clerkId: user.id } : "skip"
-  );
+  const {theme} = useTheme();
+   const styles = createHomeStyles(theme);
+
+  const {  dbUser } = useDbUser();
   if (!dbUser) {
     return <Text>Loading...</Text>;
   };
@@ -49,4 +48,4 @@ const Home = () => {
 export default Home
 
 
-// TODO Later : Create loading state
+// TODO Later : Create loading page Ui

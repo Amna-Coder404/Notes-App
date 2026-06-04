@@ -1,9 +1,27 @@
-export const COLORS = {
-    primary: "#7C3AED",
-    secondary: "#A855F7",
-    background: "#FFFFFF",
-    surface: "#1A1A1A",
-    surfacelight: "#2A2A2A",
-    white: "#ffffff",
-    grey: "#9CA4AF"
-} as const;
+export const lightTheme = {
+  bg: "#FFFFFF",
+  text: "#111111",
+  mutedText: "#8A8A8A",
+
+  card: "#FFFFFF",
+  border: "#E5E5E5",
+
+  inputBg: "#F7F7F7",
+
+  primary: "#7C4DFF",
+  secondary: "#F7F8FA",
+};
+
+export const darkTheme = {
+  bg: "#0F172A",
+  text: "#F1F5F9",
+  mutedText: "#94A3B8",
+
+  card: "#1E293B",
+  border: "#334155",
+
+  inputBg: "#111827",
+
+  primary: "#7C4DFF",
+  secondary: "#0B1220",
+};

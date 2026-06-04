@@ -1,97 +1,101 @@
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F7F8FA",
-    paddingHorizontal: 20,
-    paddingTop: 50,
-  },
+export const createStyles = (theme: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.secondary,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+    },
 
-  // HEADER
-  header: {
-    marginBottom: 25,
-  },
+    header: {
+      marginBottom: 25,
+    },
 
-  headerTitle: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#111",
-  },
+    headerTitle: {
+      fontSize: 26,
+      fontWeight: "700",
+      color: theme.text,
+    },
 
-  headerSubtitle: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 4,
-  },
+    headerSubtitle: {
+      fontSize: 14,
+      color: theme.mutedText,
+      marginTop: 4,
+    },
 
-  // INPUTS
-  input: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 15,
-    marginBottom: 15,
-    color: "#111",
-  },
+    input: {
+      backgroundColor: theme.card,
+      borderWidth: 1,
+      borderColor: theme.border,
+      borderRadius: 12,
+      paddingHorizontal: 14,
+      paddingVertical: 12,
+      fontSize: 15,
+      marginBottom: 15,
+      color: theme.text,
+    },
 
-  textArea: {
-    height: 140,
-    textAlignVertical: "top",
-  },
+    textArea: {
+      height: 140,
+      textAlignVertical: "top",
+      
+    },
 
-  // CATEGORY DROPDOWN
-  dropdown: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    padding: 14,
-    marginBottom: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+    dropdown: {
+      backgroundColor: theme.card,
+      borderWidth: 1,
+      borderColor: theme.border,
+      borderRadius: 12,
+      padding: 14,
+      marginBottom: 15,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      
+    },
 
-  dropdownText: {
-    color: "#111",
-    fontSize: 15,
-  },
+    dropdownText: {
+      color: theme.mutedText,
+      fontSize: 15,
+      
+    },
 
-  dropdownPlaceholder: {
-    color: "#999",
-  },
+    dropdownPlaceholder: {
+      color: theme.mutedText,
+    },
 
-  dropdownList: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#eee",
-    marginBottom: 15,
-    overflow: "hidden",
-  },
+    dropdownList: {
+      backgroundColor: theme.card,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.border,
+      marginBottom: 15,
+      overflow: "hidden",
+    
+      
+    },
 
-  dropdownItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f1f1f1",
-  },
+    dropdownItem: {
+      padding: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.border,
+      color : theme.mutedText
+    },
 
-  // BUTTON
-  button: {
-    backgroundColor: "#111",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
+    button: {
+      backgroundColor: theme.primary,
+      paddingVertical: 14,
+      borderRadius: 12,
+      alignItems: "center",
+      marginTop: 10,
+      color : theme.mutedText
+    },
 
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-});
+    buttonText: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "600",
+    },
+  });

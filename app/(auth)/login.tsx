@@ -1,4 +1,6 @@
-import { styles } from '@/style/login.styles';
+
+import { useTheme } from '@/hooks/useTheme';
+import { createLoginStyles } from '@/style/login.styles';
 import { useSSO } from '@clerk/clerk-expo';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -8,6 +10,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const Login = () => {
+  const { theme } = useTheme();
+  const styles = createLoginStyles(theme);
+
   const { startSSOFlow } = useSSO();
   const router = useRouter();
 

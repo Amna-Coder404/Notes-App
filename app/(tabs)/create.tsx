@@ -3,8 +3,10 @@ import React, { useState } from 'react'
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/clerk-expo';
-import { styles } from '@/style/create.stlye';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@/hooks/useTheme';
+import { createStyles } from '@/style/create.stlye';
+import { useDbUser } from '@/hooks/useDbUser';
 
 
 const categories = [
@@ -18,11 +20,13 @@ const categories = [
 
 
 const Create = () => {
-  const { user } = useUser();
-  const dbUser = useQuery(
-    api.user.getUserByClerkId,
-    user?.id ? { clerkId: user.id } : "skip"
-  );
+
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+
+  const {  dbUser } = useDbUser();
+
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const createNote = useMutation(api.notes.createNote);
@@ -72,6 +76,7 @@ const Create = () => {
       <TextInput
         style={styles.input}
         value={title}
+          placeholderTextColor={theme.mutedText}
         placeholder='Add title'
         onChangeText={setTitle}
       />
@@ -106,13 +111,14 @@ const Create = () => {
                 setOpenCategory(false);
               }}
             >
-              <Text>{item}</Text>
+              <Text style={{color : theme.mutedText}}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
       )}
       <TextInput
         placeholder="Write your note..."
+        placeholderTextColor={theme.mutedText}
         value={content}
         onChangeText={setContent}
         multiline
