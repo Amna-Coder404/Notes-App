@@ -1,14 +1,14 @@
-import { View, Text, Modal, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { categoryModal } from '@/style/categories.style'
 import { useTheme } from '@/hooks/useTheme'
+import { modalStlye } from '@/style/modal'
 import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import { Modal, Text, TouchableOpacity, View } from 'react-native'
 
 
 
 const Categories = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
-    const styles = categoryModal(theme);
+    const styles = modalStlye(theme);
     return (
         <Modal
             visible={visible}

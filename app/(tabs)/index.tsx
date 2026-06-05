@@ -1,5 +1,5 @@
 
-import Categories from '@/components/Categories'
+import Categories from '@/components/CategoriesModal'
 import EditBtn from '@/components/EditBtn'
 import Loader from '@/components/Loader'
 import NotFound from '@/components/NotFound'
@@ -8,11 +8,13 @@ import { useDbUser } from '@/hooks/useDbUser'
 import { useTheme } from '@/hooks/useTheme'
 import { createHomeStyles } from '@/style/home.style'
 import { Entypo } from '@expo/vector-icons'
-import { useQuery } from 'convex/react'
+import { useMutation, useQuery } from 'convex/react'
 import React, { useState } from 'react'
 import { FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { formatDistanceToNow } from "date-fns"
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { it } from 'node:test'
+import EditNoteModal, { DeleteNote } from '@/components/EditNoteModal'
 
 
 const Home = () => {
@@ -27,6 +29,7 @@ const Home = () => {
     dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip"
   );
 
+  const updateNotes = useMutation(api.notes.editNotes);
 
 
   const categoryCounts: Record<string, number> = {};
@@ -46,9 +49,45 @@ const Home = () => {
     y: 0,
   })
 
-  const [activeNoteId, setActiveNoteId] = React.useState<string | null>(null);
+  const [selectedNote, setSelectedNote] = useState<any>(null);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const [showCategories, setShowCategories] = useState(false);
+  const deleteNote = useMutation(api.notes.deleteNote);
+
+  const handleEditSave = async (data: any) => {
+    if (!selectedNote) return;
+
+    const noteId = selectedNote._id;
+    try {
+      await updateNotes({
+        noteId,
+        title: data.title,
+        content: data.content,
+        categories: data.categories,
+      })
+
+      setEditModalVisible(false);
+      setSelectedNote(null);
+    } catch (error) {
+      console.log("ERROR : ", error);
+      throw new Error("Faild to edit");
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!selectedNote?._id) return;
+    try {
+      await deleteNote({ noteId: selectedNote._id });
+      setSelectedNote(null);
+      setDeleteModal(false);
+    }
+    catch (error) {
+      throw new Error("Faild to delele!!");
+    }
+  }
+
 
   if (notes === undefined) return <Loader />
 
@@ -72,7 +111,8 @@ const Home = () => {
               y: pageY,
             });
 
-            setActiveNoteId(item._id);
+            setSelectedNote(item);
+            console.log("ITem", item.title)
           }}
         >
           <Entypo
@@ -105,7 +145,6 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-
       {/* HEADER  */}
       <View style={styles.header}>
         <View>
@@ -186,18 +225,37 @@ const Home = () => {
 
 
       <EditBtn
-        visible={activeNoteId !== null}
+        visible={selectedNote !== null}
         position={dropdownPos}
-        theme={theme}
-        onClose={() => setActiveNoteId(null)}
-        onEdit={() => {
-          console.log('Edit')
-          setActiveNoteId(null)
-        }}
+        onClose={() => setSelectedNote(null)}
+        onEdit={() => { setEditModalVisible(true) }}
         onDelete={() => {
-          console.log('Delete')
-          setActiveNoteId(null)
+          if (!selectedNote) return;
+          setDeleteModal(true)
         }}
+        onPin={() => {
+          console.log('Pin',)
+          setSelectedNote(null);
+        }} />
+      {/* EDIT MODAL */}
+      <EditNoteModal
+        visible={editModalVisible}
+        onClose={() => {
+          setEditModalVisible(false);
+          setSelectedNote(null);
+        }}
+        note={selectedNote}
+        handleSave={handleEditSave}
+      />
+      {/* DELETE NOTE MODAL */}
+      <DeleteNote
+        visible={deleteModal}
+        onClose={() => {
+          setDeleteModal(false);
+          setSelectedNote(null);
+        }}
+        note={selectedNote}
+        handleDelete={handleDelete}
       />
     </SafeAreaView>
 
