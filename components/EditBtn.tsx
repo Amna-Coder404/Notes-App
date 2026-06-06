@@ -15,7 +15,7 @@ type EditBtnProps = {
     onEdit?: () => void
     onDelete?: () => void
     onPin?: () => void
-    onStar?: () => void
+    note :any
 }
 
 const EditBtn = ({
@@ -25,7 +25,7 @@ const EditBtn = ({
     onEdit,
     onDelete,
     onPin,
-    onStar,
+    note
 }: EditBtnProps) => {
 
     const { theme } = useTheme();
@@ -57,19 +57,14 @@ const EditBtn = ({
                     <AntDesign
                         name="pushpin"
                         size={18}
-                        color={theme.text}
+                        color={note.isPinned ? "#CEC436" : theme.mutedText}
                     />
                     <Text style={{ color: theme.text }}>
                         Pin
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.editBtns} onPress={onStar}>
-                    <AntDesign name="star" size={18} color={theme.text} />
-                    <Text style={{ color: theme.text }}>
-                        Star
-                    </Text>
-                </TouchableOpacity>
+              
 
             </View>
         </Pressable>

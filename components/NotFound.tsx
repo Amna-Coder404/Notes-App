@@ -12,14 +12,13 @@ const NotFound = () => {
         router.push("/(tabs)/create");
     }
     return (
-
-            <TouchableOpacity onPress={() => handleCreate()} style={[styles.container, { backgroundColor: theme.background }]}>
+            <TouchableOpacity onPress={() => handleCreate()} style={[styles.container, { backgroundColor: theme.bg }]}>
                 <Ionicons
                     name="create-outline"
                     size={70}
                     color={theme.mutedText}
                 />
-            
+
 
             <Text style={[styles.title, { color: theme.text }]}>
                 No Notes Found
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,
-        marginTop: 100
+
     },
     title: {
         fontSize: 20,

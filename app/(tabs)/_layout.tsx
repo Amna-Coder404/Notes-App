@@ -11,13 +11,13 @@ const TabsLayout = () => {
     <Tabs
       screenOptions={{
         headerShown: false,
-
+        tabBarHideOnKeyboard: true,
         //  TAB BAR BACKGROUND
         tabBarStyle: {
           backgroundColor: theme.card,
           borderTopWidth: 0,
           height: 60,
-          borderTopColor :theme.mutedText,
+          borderTopColor: theme.mutedText,
         },
 
         //  ICON COLORS

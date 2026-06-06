@@ -4,8 +4,8 @@ import { mutation, query } from "./_generated/server";
 export const createNote = mutation({
   args: {
     clerkId: v.string(),
-     title: v.optional(v.string()),
-  categories: v.array(v.string()), 
+    title: v.optional(v.string()),
+    categories: v.array(v.string()),
     content: v.string(),
   },
 
@@ -25,8 +25,8 @@ export const createNote = mutation({
 export const editNotes = mutation({
   args: {
     noteId: v.id("notes"),
-      title: v.optional(v.string()),
-     categories: v.array(v.string()), 
+    title: v.optional(v.string()),
+    categories: v.array(v.string()),
     content: v.string(),
   },
 

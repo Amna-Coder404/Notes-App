@@ -40,7 +40,7 @@ export const createStyles = (theme: any) =>
     textArea: {
       height: 140,
       textAlignVertical: "top",
-      
+
     },
 
     dropdown: {
@@ -53,13 +53,13 @@ export const createStyles = (theme: any) =>
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      
+
     },
 
     dropdownText: {
       color: theme.mutedText,
       fontSize: 15,
-      
+
     },
 
     dropdownPlaceholder: {
@@ -73,15 +73,17 @@ export const createStyles = (theme: any) =>
       borderColor: theme.border,
       marginBottom: 15,
       overflow: "hidden",
-    
-      
+      maxHeight: 300
+
     },
 
     dropdownItem: {
       padding: 12,
       borderBottomWidth: 1,
       borderBottomColor: theme.border,
-      color : theme.mutedText
+      color: theme.mutedText,
+ 
+ 
     },
 
     button: {
@@ -90,12 +92,18 @@ export const createStyles = (theme: any) =>
       borderRadius: 12,
       alignItems: "center",
       marginTop: 10,
-      color : theme.mutedText
+      color: theme.mutedText
     },
 
     buttonText: {
       color: "#fff",
       fontSize: 16,
       fontWeight: "600",
+    },
+    errorText: {
+      color: "red",
+      fontSize: 13,
+      marginTop: 4,
+      marginLeft: 2,
     },
   });

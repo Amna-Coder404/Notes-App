@@ -22,7 +22,7 @@ const categories = [
 const Create = () => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
-  const {  dbUser } = useDbUser();
+  const { dbUser } = useDbUser();
 
 
   const [title, setTitle] = useState("");
@@ -32,14 +32,31 @@ const Create = () => {
   const [category, setCategory] = useState("");
   const [openCategory, setOpenCategory] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showCategoryError, setShowCategoryError] = useState(false);
+  const [showContentError, setShowContentError] = useState(false);
 
 
- 
 
   const handleCreateNotes = async () => {
-    if (!dbUser) return;
-    if (!content.trim()) return;
-    if (loading) return;
+    if (!dbUser || loading) return;
+    let hasError = false;
+
+    if (!content.trim()) {
+      setShowContentError(true);
+      hasError = true;
+    } else {
+      setShowContentError(false);
+    }
+
+    if (!category) {
+      setShowCategoryError(true);
+      hasError = true;
+    } else {
+      setShowCategoryError(false);
+    }
+
+    if (hasError) return;
+
 
     setLoading(true);
     try {
@@ -76,7 +93,7 @@ const Create = () => {
       <TextInput
         style={styles.input}
         value={title}
-          placeholderTextColor={theme.mutedText}
+        placeholderTextColor={theme.mutedText}
         placeholder='Add title'
         onChangeText={setTitle}
       />
@@ -99,7 +116,9 @@ const Create = () => {
 
         {/* Notes */}
       </TouchableOpacity>
-
+      {
+        showCategoryError && (<Text style={styles.errorText}>Please select a category before continuing </Text>)
+      }
       {openCategory && (
         <View style={styles.dropdownList}>
           {categories.map((item) => (
@@ -109,9 +128,10 @@ const Create = () => {
               onPress={() => {
                 setCategory(item);
                 setOpenCategory(false);
+                setShowCategoryError(false);
               }}
             >
-              <Text style={{color : theme.mutedText}}>{item}</Text>
+              <Text style={{ color: theme.mutedText }}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -120,10 +140,19 @@ const Create = () => {
         placeholder="Write your note..."
         placeholderTextColor={theme.mutedText}
         value={content}
-        onChangeText={setContent}
+        onChangeText={(text) => {
+          setContent(text);
+
+          if (text.trim()) {
+            setShowContentError(false);
+          }
+        }}
         multiline
         style={[styles.input, styles.textArea]}
       />
+      {
+        showContentError && (<Text style={styles.errorText}>Please Write your note </Text>)
+      }
       <TouchableOpacity
         style={[
           styles.button,

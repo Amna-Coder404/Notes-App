@@ -17,8 +17,8 @@ export default defineSchema({
         title: v.optional(v.string()),
         content: v.string(),
         categories: v.array(v.string()),
-        isFavorite: v.boolean(), // ⭐ important
-        isPinned: v.boolean(),   // optional (extra feature)
+        isFavorite: v.optional(v.boolean()), // ⭐ important
+        isPinned: v.optional(v.boolean()),   // optional (extra feature)
 
         createdAt: v.number(),
     }).index("by_clerkId", ["clerkId"]),
