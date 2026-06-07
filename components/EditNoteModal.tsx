@@ -1,9 +1,9 @@
 import { useTheme } from '@/hooks/useTheme';
-import { modalStlye } from '@/style/modal';
+import { createStyles } from '@/style/create.stlye';
+import { modalStlye } from '@/style/modal.stlye';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Modal, Text, TextInput, TextInputBase, TouchableOpacity, View } from 'react-native';
-import { createStyles } from '@/style/create.stlye';
+import { Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 const categories = [

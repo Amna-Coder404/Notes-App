@@ -24,6 +24,21 @@ export const createStyles = (theme: any) =>
       color: theme.mutedText,
       marginTop: 4,
     },
+    label: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: theme.bright,
+      marginBottom: 6,
+      marginLeft: 2,
+      letterSpacing: 0.3,
+
+    },
+
+    requiredMark: {
+      color: "red",
+      fontSize: 13,
+      marginLeft: 4,
+    },
 
     input: {
       backgroundColor: theme.card,
@@ -82,8 +97,8 @@ export const createStyles = (theme: any) =>
       borderBottomWidth: 1,
       borderBottomColor: theme.border,
       color: theme.mutedText,
- 
- 
+
+
     },
 
     button: {
@@ -96,7 +111,7 @@ export const createStyles = (theme: any) =>
     },
 
     buttonText: {
-      color: "#fff",
+      color  : theme.bright,
       fontSize: 16,
       fontWeight: "600",
     },
@@ -106,4 +121,9 @@ export const createStyles = (theme: any) =>
       marginTop: 4,
       marginLeft: 2,
     },
+    formContainer: {
+      paddingHorizontal: 16,
+      paddingVertical: 26,
+    },
+  
   });

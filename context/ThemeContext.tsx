@@ -16,8 +16,3 @@ export const ThemeProvider = ({ children }: any) => {
         </ThemeContext.Provider>
     );
 };
-// todo 
-// import { useColorScheme } from "react-native";
-
-// const systemTheme = useColorScheme();
-// const [isDark, setIsDark] = useState(systemTheme === "dark");

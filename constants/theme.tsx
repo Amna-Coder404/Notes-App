@@ -2,7 +2,8 @@ export const lightTheme = {
   bg: "#FFFFFF",
   text: "#111111",
   mutedText: "#8A8A8A",
-  
+  bright : "#111111",
+
   card: "#FFFFFF",
   border: "#E5E5E5",
 
@@ -22,6 +23,7 @@ export const darkTheme = {
 
   inputBg: "#111827",
 
+  bright : "#FFFFFF",
   primary: "#7C4DFF",
   secondary: "#0B1220",
 };

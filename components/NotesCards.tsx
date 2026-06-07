@@ -29,15 +29,16 @@ const NotesCards = () => {
 
     const categoryCounts: Record<string, number> = {};
 
-    if (notes) {
-        for (const note of notes) {
-            for (const category of note.categories) {
-                categoryCounts[category] = (categoryCounts[category] || 0) + 1;
-            }
+    const safeNotes = notes ?? [];
+    const hasNotes = safeNotes.length > 0;
+    for (const note of safeNotes) {
+        for (const category of note.categories) {
+            categoryCounts[category] = (categoryCounts[category] || 0) + 1;
         }
     }
+
     const categoriesArray = Object.entries(categoryCounts); //arry to obj
-    const allNotesCount = notes?.length || 0;
+    const allNotesCount = safeNotes.length;
     const updateNotes = useMutation(api.notes.editNotes);
 
 
@@ -54,7 +55,6 @@ const NotesCards = () => {
     const toggleFavorite = useMutation(api.notes.toggleFavorite);
     const togglePinned = useMutation(api.notes.togglePinned);
 
-    const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
 
     const handleEditSave = async (data: any) => {
         if (!selectedNote) return;
@@ -161,11 +161,12 @@ const NotesCards = () => {
     );
 
     return (
-        <>
+        <View>
             {/* render all notes */}
-            {notes.length > 0 ? (
+            {hasNotes ? (
                 <FlatList
-                    data={notes}
+                    style={styles.cardContainer}
+                    data={safeNotes}
                     keyExtractor={(item) => item._id}
                     renderItem={renderNote}
                     showsVerticalScrollIndicator={false}
@@ -236,8 +237,7 @@ const NotesCards = () => {
                         </>
                     }
                     ListFooterComponent={
-                        <> <Categories visible={showCategories} onClose={() => setShowCategories(false)} />
-                        </>
+                       <Categories visible={showCategories} onClose={() => setShowCategories(false)} />         
                     }
                 />
             ) : (
@@ -279,7 +279,7 @@ const NotesCards = () => {
                 note={selectedNote}
                 handleDelete={handleDelete}
             />
-        </>
+        </View>
     );
 };
 

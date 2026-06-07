@@ -6,7 +6,7 @@ export const createHomeStyles = (theme: any) =>
       flex: 1,
       backgroundColor: theme.bg,
       paddingHorizontal: 20,
-      paddingVertical: 20,
+
     },
 
     header: {
@@ -16,8 +16,8 @@ export const createHomeStyles = (theme: any) =>
     },
     profilePic: {
       width: 40,
-       height: 40, 
-       borderRadius: 20
+      height: 40,
+      borderRadius: 20
     },
     greeting: {
       fontSize: 28,
@@ -169,7 +169,6 @@ export const createHomeStyles = (theme: any) =>
       fontSize: 14,
       color: theme.mutedText,
     },
-
     fab: {
       position: "absolute",
       right: 25,
@@ -180,6 +179,9 @@ export const createHomeStyles = (theme: any) =>
       backgroundColor: theme.primary,
       justifyContent: "center",
       alignItems: "center",
+
+      zIndex: 9999,       // 👈 iOS + Android stacking
+      elevation: 10,      // 👈 Android only
     },
     dropDownNotes: {
       position: 'absolute',
@@ -194,5 +196,9 @@ export const createHomeStyles = (theme: any) =>
     },
     editBtn: {
       flexDirection: 'row', gap: 10, padding: 8
+    },
+    cardContainer: {
+      // backgroundColor :"red",
+      marginBottom: 40
     }
   });

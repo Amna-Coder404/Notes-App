@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme'
-import { modalStlye } from '@/style/modal'
+import { modalStlye } from '@/style/modal.stlye'
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Modal, Text, TouchableOpacity, View } from 'react-native'
@@ -28,6 +28,7 @@ const Categories = ({ visible, onClose }: any) => {
                 </View>
                 {/* todo later: ALL Categorys */}
             </View>
+            
         </Modal>
     )
 }

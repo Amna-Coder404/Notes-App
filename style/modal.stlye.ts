@@ -20,9 +20,9 @@ export const modalStlye = (theme: any) =>
             borderBottomColor: theme.mutedText,
         },
         modalTitle: {
-            color: theme.mutedText,
+            color: theme.bright,
             fontSize: 16,
-            fontWeight: "600",
+            fontWeight: "bold",
         },
         input: {
             backgroundColor: theme.card,
@@ -50,7 +50,6 @@ export const modalStlye = (theme: any) =>
             alignItems: "center",
             marginTop: 10,
             color: theme.mutedText,
-
         },
         buttonText: {
             color: "#fff",
@@ -74,9 +73,14 @@ export const modalStlye = (theme: any) =>
         },
         text: {
             color: theme.mutedText,
-            
+
         },
         canalBtn: {
             backgroundColor: "#84061B"
+        },
+        savebtnText: {
+            color: theme.primary,
+            fontSize: 16,
+            fontWeight: "600",
         }
     })
