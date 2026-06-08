@@ -2,15 +2,16 @@ export const lightTheme = {
   bg: "#FFFFFF",
   text: "#111111",
   mutedText: "#8A8A8A",
-  bright : "#111111",
+  bright : "#ffffff",
 
   card: "#FFFFFF",
-  border: "#E5E5E5",
+  border: "#d0d0d0",
 
   inputBg: "#F7F7F7",
 
   primary: "#7C4DFF",
   secondary: "#F7F8FA",
+  danger: "#FF4D4F",
 };
 
 export const darkTheme = {
@@ -26,4 +27,5 @@ export const darkTheme = {
   bright : "#FFFFFF",
   primary: "#7C4DFF",
   secondary: "#0B1220",
+  danger: "#FF4D4F",
 };

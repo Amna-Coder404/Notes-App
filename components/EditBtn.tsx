@@ -18,26 +18,15 @@ type EditBtnProps = {
     note :any
 }
 
-const EditBtn = ({
-    visible,
-    position,
-    onClose,
-    onEdit,
-    onDelete,
-    onPin,
-    note
-}: EditBtnProps) => {
-
+const EditBtn = ({ visible, position, onClose, onEdit, onDelete, onPin, note}: EditBtnProps) => {
     const { theme } = useTheme();
     const styles = notesEditSection(theme);
     if (!visible) return null
 
+
     return (
         <Pressable onPress={onClose} style={styles.onCloseBtn} >
-            <View style={[styles.containerEditSection, {
-                top: position.y + 10,
-                left: position.x - 140,
-            }]}>
+            <View style={[styles.containerEditSection, {top: position.y + 10,left: position.x - 140,  }]}>
 
                 <TouchableOpacity style={styles.editBtns} onPress={onEdit} >
                     <Ionicons name="create-outline" size={18} color={theme.text} />
@@ -65,7 +54,6 @@ const EditBtn = ({
                 </TouchableOpacity>
 
               
-
             </View>
         </Pressable>
     )

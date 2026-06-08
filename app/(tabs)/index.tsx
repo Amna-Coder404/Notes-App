@@ -16,9 +16,6 @@ const Home = () => {
   const styles = createHomeStyles(theme);
   const { dbUser } = useDbUser();
   const [showAddNoteModal, setShowAddNoteModal] = useState(false);
-  if (!dbUser) {
-    return <Loader />;
-  };
 
   return (
     <SafeAreaView style={styles.container}>

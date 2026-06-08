@@ -6,7 +6,6 @@ export const createHomeStyles = (theme: any) =>
       flex: 1,
       backgroundColor: theme.bg,
       paddingHorizontal: 20,
-
     },
 
     header: {
@@ -105,8 +104,10 @@ export const createHomeStyles = (theme: any) =>
       borderRadius: 18,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.card,
-      marginRight: 10
+
+      marginRight: 10,
+      borderWidth: 1,
+      borderColor: theme.border,
     },
 
     categoryTitle: {
@@ -151,6 +152,7 @@ export const createHomeStyles = (theme: any) =>
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      gap: 23
     },
 
     noteTitle: {

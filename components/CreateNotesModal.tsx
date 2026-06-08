@@ -103,7 +103,7 @@ const Create = ({ visible, onClose }: any) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    {/* todo later: ALL Categorys */}
+                    
 
                     <View style={styles.formContainer}>
                         <View style={styles.header}>

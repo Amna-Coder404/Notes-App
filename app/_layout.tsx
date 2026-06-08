@@ -1,36 +1,43 @@
 import Initiallayout from "@/components/Initiallayout";
 import { ThemeProvider } from "@/context/ThemeContext";
+
 import ClerkAndConvexProvider from "@/providers/ClerkAndConvexProvider";
 import { SplashScreen } from "expo-router";
 import { useEffect } from "react";
 
-import { StatusBar, Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import * as NavigationBar from "expo-navigation-bar";
 
- SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
- useEffect(() => {
+
+  useEffect(() => {
     async function prepare() {
       // Load fonts, auth, etc.
 
       await SplashScreen.hideAsync();
+      await NavigationBar.setBackgroundColorAsync("black");
+      await NavigationBar.setButtonStyleAsync("light");
+
+      // Hide bottom navigation bar (immersive mode)
+      NavigationBar.setVisibilityAsync("hidden");
     }
 
     prepare();
   }, []);
-
-
+  
   return (
-   <ThemeProvider>
-     <ClerkAndConvexProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-        <StatusBar barStyle={"light-content"} />
-        <Initiallayout />
-    
-      </SafeAreaView>
-    </ClerkAndConvexProvider>
-   </ThemeProvider>
+    <ThemeProvider>
+      <ClerkAndConvexProvider>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+          <StatusBar style="auto" />
+          <Initiallayout />
+
+        </SafeAreaView>
+      </ClerkAndConvexProvider>
+    </ThemeProvider>
   )
 }

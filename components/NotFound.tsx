@@ -11,7 +11,7 @@ export default function NotFound() {
     const router = useRouter()
     
     return (
-        <TouchableOpacity onPress={() => setShowAddNoteModal(true)} style={[styles.container, { backgroundColor: theme.bg }]}>
+        <TouchableOpacity style={styles.container} onPress={() => setShowAddNoteModal(true)}>
             <Ionicons
                 name="create-outline"
                 size={70}

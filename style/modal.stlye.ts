@@ -20,7 +20,7 @@ export const modalStlye = (theme: any) =>
             borderBottomColor: theme.mutedText,
         },
         modalTitle: {
-            color: theme.bright,
+            color: theme.text,
             fontSize: 16,
             fontWeight: "bold",
         },
