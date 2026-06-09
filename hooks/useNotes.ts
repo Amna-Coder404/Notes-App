@@ -1,11 +1,21 @@
 import { api } from "@/convex/_generated/api";
 import { useDbUser } from "./useDbUser"
 import { useMutation, useQuery } from "convex/react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
+
 
 export const useNotes = () => {
     const { dbUser } = useDbUser();
+    const categories = [
+        "Study",
+        "Programming",
+        "Personal",
+        "Ideas",
+        "Goals",
+        "Other"
+    ];
+
 
     //   QUERIES
     const notes = useQuery(api.notes.getAllNotes, dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip");
@@ -22,9 +32,12 @@ export const useNotes = () => {
 
 
     // Derived Data
+
     const categoryStats = useMemo(() => {
-        const counts: Record<string, number> = {};
         if (!notes) return [];
+
+        const counts: Record<string, number> = {};
+
 
         for (const note of notes) {
             for (const c of note.categories) {
@@ -35,6 +48,35 @@ export const useNotes = () => {
     }, [notes]);
 
     const allNotesCount = notes?.length || 0;
+    const fullCategoryList = useMemo(() => {
+        return categories.map((cat) => {
+            const found = categoryStats.find(([c]) => c === cat);
+
+            return {
+                name: cat,
+                count: found ? found[1] : 0,
+            };
+        });
+    }, [categoryStats]);
+
+    // Filter Notes 
+    const [searchText, setSearchText] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
+
+    const filteredNotes = useMemo(() => {
+        if (!notes) return null;
+
+        return notes.filter((note) => {
+            const matchCategory = selectedCategory === "All" ||
+                note.categories?.includes(selectedCategory);
+
+            const matchNotes = note.title?.toLowerCase().includes(searchText.toLowerCase()) ||
+                note.content.toLowerCase().includes(searchText.toLowerCase());
+            return matchCategory && matchNotes;
+
+        })
+
+    }, [notes, searchText, selectedCategory])
 
     // Actions
     const handleEditSave = async (
@@ -81,6 +123,8 @@ export const useNotes = () => {
 
 
     return {
+        fullCategoryList,
+        categories,
         notes,
         pinnedNotes,
         categoryStats,
@@ -88,7 +132,13 @@ export const useNotes = () => {
         handleDelete,
         handleEditSave,
         handleTogglePinned,
-        handleToggleStar
+        handleToggleStar,
+        // Filter Note 
+        filteredNotes,
+        setSearchText,
+        searchText,
+        selectedCategory,
+        setSelectedCategory
     };
 };
 

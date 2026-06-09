@@ -79,12 +79,6 @@ export const profileScreenStyles = (theme: any) =>
             color: theme.text,
         },
 
-        menuSubtitle: {
-            fontSize: 13,
-            color: theme.textSecondary,
-            marginTop: 2,
-        },
-
 
         // Logout
         logoutText: {
@@ -93,8 +87,47 @@ export const profileScreenStyles = (theme: any) =>
             fontWeight: "600",
         },
 
-        // Switch
-        switchContainer: {
-            transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }],
+        //    category buttons
+
+        categoryContainer: {
+            flex: 1,
+            backgroundColor: theme.bg,
+            paddingHorizontal: 23,
+
         },
+        categoryContainerMain : {
+             flex: 1,
+            backgroundColor: theme.bg,
+         
+        },
+
+        categoryBtn: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+            borderWidth: 1,
+            borderColor: theme.border,
+            marginTop: 10,
+            borderRadius: 8,
+        },
+
+        categoryText: {
+            fontSize: 16,
+            color: theme.text,
+        },
+
+        categoryBtnIcon: {
+            color: theme.text,
+        },
+        headerRow: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderBottomWidth: 1,
+            borderBottomColor: "rgba(150,150,150,0.15)",
+        }
     });

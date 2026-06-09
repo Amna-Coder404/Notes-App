@@ -4,16 +4,15 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import ClerkAndConvexProvider from "@/providers/ClerkAndConvexProvider";
 import { SplashScreen } from "expo-router";
 import { useEffect } from "react";
-
-import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as NavigationBar from "expo-navigation-bar";
+import { useTheme } from "@/hooks/useTheme";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-
+ 
   useEffect(() => {
     async function prepare() {
       // Load fonts, auth, etc.
@@ -28,12 +27,12 @@ export default function RootLayout() {
 
     prepare();
   }, []);
-  
+
   return (
     <ThemeProvider>
       <ClerkAndConvexProvider>
         <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-          <StatusBar style="auto" />
+  
           <Initiallayout />
 
         </SafeAreaView>

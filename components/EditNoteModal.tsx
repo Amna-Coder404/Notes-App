@@ -1,3 +1,4 @@
+import { useNotes } from '@/hooks/useNotes';
 import { useTheme } from '@/hooks/useTheme';
 import { createStyles } from '@/style/create.stlye';
 import { modalStlye } from '@/style/modal.stlye';
@@ -6,14 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
-const categories = [
-    "Study",
-    "Programming",
-    "Personal",
-    "Ideas",
-    "Goals",
-    "Other"
-];
 
 
 type editProps = {
@@ -28,6 +21,7 @@ type editProps = {
 }
 
 export default function EditNoteModal({ visible, onClose, note, handleSave }: editProps) {
+    const {categories} = useNotes();
     const { theme } = useTheme();
     const styles = modalStlye(theme);
     const dropDown = createStyles(theme);

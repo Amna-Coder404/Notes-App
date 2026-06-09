@@ -57,9 +57,13 @@ export const createHomeStyles = (theme: any) =>
     },
 
     searchInput: {
-      flex: 1,
-      marginLeft: 10,
-      fontSize: 15,
+
+      marginTop: 10,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: theme.mutedText,
+      borderRadius: 10,
+      
       color: theme.text,
     },
 
@@ -200,7 +204,11 @@ export const createHomeStyles = (theme: any) =>
       flexDirection: 'row', gap: 10, padding: 8
     },
     cardContainer: {
-      // backgroundColor :"red",
+
       marginBottom: 40
+    },
+    selectCategory: {
+     backgroundColor: theme.primary ,
+    
     }
   });

@@ -1,5 +1,6 @@
 import { api } from '@/convex/_generated/api';
 import { useDbUser } from '@/hooks/useDbUser';
+import { useNotes } from '@/hooks/useNotes';
 import { useTheme } from '@/hooks/useTheme';
 import { createStyles } from '@/style/create.stlye';
 import { modalStlye } from '@/style/modal.stlye';
@@ -9,22 +10,13 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
-const categories = [
-    "Study",
-    "Programming",
-    "Personal",
-    "Ideas",
-    "Goals",
-    "Other"
-];
-
 
 const Create = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
     const styles = createStyles(theme);
     const modalStlyes = modalStlye(theme);
     const { dbUser } = useDbUser();
-
+    const { categories } = useNotes();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");

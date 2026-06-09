@@ -40,11 +40,9 @@ const Home = () => {
           )}
         </TouchableOpacity>
       </View>
+      
       <NotesCards />
-      <Create
-        visible={showAddNoteModal}
-        onClose={() => setShowAddNoteModal(false)}
-      />
+      <Create visible={showAddNoteModal} onClose={() => setShowAddNoteModal(false)} />
 
     </SafeAreaView>
 

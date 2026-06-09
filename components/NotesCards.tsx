@@ -2,8 +2,15 @@ import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+    FlatList,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 
 import { useNotes } from "@/hooks/useNotes";
 import EditBtn from "./EditBtn";
@@ -20,17 +27,25 @@ const NotesCards = () => {
         pinnedNotes,
         categoryStats,
         allNotesCount,
-
         handleEditSave,
         handleDelete,
         handleTogglePinned,
         handleToggleStar,
+        filteredNotes,
+        setSearchText,
+        searchText,
+        selectedCategory,
+        setSelectedCategory
     } = useNotes();
+
+    const isSearching = searchText.trim().length > 0;
 
     const [dropdownPos, setDropdownPos] = useState({ x: 0, y: 0 });
     const [selectedNote, setSelectedNote] = useState<any>(null);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+
+    // remove selected note if deleted
     useEffect(() => {
         if (!selectedNote) return;
 
@@ -40,6 +55,14 @@ const NotesCards = () => {
             setSelectedNote(null);
         }
     }, [notes]);
+
+    // hide pinned during search
+    const filteredPinnedNotes = useMemo(() => {
+        if (!notes) return [];
+        if (isSearching) return [];
+        return notes.filter((note) => note.isPinned);
+    }, [notes, isSearching]);
+
     const onSaveEdit = async (data: {
         title: string;
         content: string;
@@ -89,7 +112,9 @@ const NotesCards = () => {
                 </Text>
 
                 <Text style={styles.noteDate}>
-                    {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                    {formatDistanceToNow(new Date(item.createdAt), {
+                        addSuffix: true
+                    })}
                 </Text>
             </View>
         </View>
@@ -97,54 +122,102 @@ const NotesCards = () => {
 
     return (
         <>
+            {/* LOADER */}
             {notes === undefined ? (
                 <Loader />
             ) : notes.length > 0 ? (
                 <FlatList
                     style={styles.cardContainer}
-                    data={notes}
+                    data={filteredNotes}
                     keyExtractor={(item) => item._id}
                     renderItem={renderNote}
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={
                         <>
-                            {/* Categories */}
-                            <View style={styles.sectionHeader}>
-                                <Text style={styles.sectionTitle}>Categories</Text>
-                            </View>
 
-                            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                                <View style={styles.categoryCard}>
-                                    <Text style={styles.categoryText}>All</Text>
-                                    <Text style={styles.categoryCount}>{allNotesCount}</Text>
-                                </View>
+                            {/* SEARCH */}
+                            <TextInput
+                                value={searchText}
+                                onChangeText={setSearchText}
+                                placeholder="Search notes..."
+                                style={styles.searchInput}
+                                placeholderTextColor={theme.text}
+                            />
 
-                                {categoryStats.map(([category, count]) => (
-                                    <View key={category} style={styles.categoryCard}>
-                                        <Text style={styles.categoryText}>{category}</Text>
-                                        <Text style={styles.categoryCount}>{count}</Text>
-                                    </View>
-                                ))}
-                            </ScrollView>
-
-                            {/* Pinned */}
-                            {pinnedNotes === undefined ? (
-                                <Loader />
-                            ) : pinnedNotes.length > 0 ? (
+                            {/* CATEGORIES (HIDDEN WHEN SEARCHING) */}
+                            {!isSearching && (
                                 <>
                                     <View style={styles.sectionHeader}>
-                                        <Text style={styles.sectionTitle}>Pinned</Text>
+                                        <Text style={styles.sectionTitle}>
+                                            Categories
+                                        </Text>
                                     </View>
 
-                                    {pinnedNotes.map((note) => (
+                                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                        <TouchableOpacity
+                                            onPress={() => setSelectedCategory("All")}
+                                            style={[
+                                                styles.categoryCard,
+                                                selectedCategory === "All" && styles.selectCategory
+                                            ]}
+                                        >
+                                            <Text style={styles.categoryText}>All</Text>
+                                            <Text style={styles.categoryCount}>
+                                                {allNotesCount}
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        {categoryStats.map(([category, count]) => (
+                                            <TouchableOpacity
+                                                key={category}
+                                                onPress={() => setSelectedCategory(category)}
+                                                style={[
+                                                    styles.categoryCard,
+                                                    selectedCategory === category && styles.selectCategory
+                                                ]}
+                                            >
+                                                <Text style={styles.categoryText}>
+                                                    {category}
+                                                </Text>
+                                                <Text style={styles.categoryCount}>
+                                                    {count}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </ScrollView>
+                                </>
+                            )}
+
+                            {/* PINNED (HIDDEN WHEN SEARCHING) */}
+                            {!isSearching && filteredPinnedNotes.length > 0 && (
+                                <>
+                                    <View style={styles.sectionHeader}>
+                                        <Text style={styles.sectionTitle}>
+                                            Pinned
+                                        </Text>
+                                    </View>
+
+                                    {filteredPinnedNotes.map((note) => (
                                         <View key={note._id} style={styles.noteCard}>
                                             <View style={styles.noteBetween}>
                                                 <Text style={styles.noteTitle}>
                                                     {note.title || "Untitled"}
                                                 </Text>
 
-                                                <TouchableOpacity onPress={() => handleTogglePinned(note._id)} >
-                                                    <AntDesign name="pushpin" size={18} color={note.isPinned ? "#CEC436" : theme.mutedText} />
+                                                <TouchableOpacity
+                                                    onPress={() =>
+                                                        handleTogglePinned(note._id)
+                                                    }
+                                                >
+                                                    <AntDesign
+                                                        name="pushpin"
+                                                        size={18}
+                                                        color={
+                                                            note.isPinned
+                                                                ? "#CEC436"
+                                                                : theme.mutedText
+                                                        }
+                                                    />
                                                 </TouchableOpacity>
                                             </View>
 
@@ -154,14 +227,14 @@ const NotesCards = () => {
                                         </View>
                                     ))}
                                 </>
-                            ) : null}
+                            )}
 
+                            {/* HEADER */}
                             <View style={styles.sectionHeader}>
                                 <Text style={styles.sectionTitle}>
                                     All Notes
                                 </Text>
                             </View>
-
 
                         </>
                     }
@@ -194,6 +267,7 @@ const NotesCards = () => {
                 note={selectedNote}
                 handleSave={onSaveEdit}
             />
+
             <DeleteNote
                 visible={deleteModal}
                 onClose={() => {
@@ -206,13 +280,12 @@ const NotesCards = () => {
                         selectedNote,
                         setDeleteModal,
                         setSelectedNote,
-                        setEditModalVisible,
+                        setEditModalVisible
                     })
                 }
             />
         </>
     );
 };
-
 
 export default NotesCards;

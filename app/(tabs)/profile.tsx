@@ -9,12 +9,14 @@ import { Ionicons } from '@expo/vector-icons'
 import { Alert } from 'react-native';
 import { useAuth } from '@clerk/clerk-expo'
 
+import { useRouter } from "expo-router";
+
 
 const Profile = () => {
   const { theme } = useTheme();
   const styles = profileScreenStyles(theme);
-const { signOut } = useAuth();
-
+  const { signOut } = useAuth();
+  const router = useRouter();
 
   const { dbUser } = useDbUser();
   const fullname = dbUser?.firstname + " " + dbUser?.lastname;
@@ -22,23 +24,23 @@ const { signOut } = useAuth();
     return <Loader />;
   };
 
-const handleSignOut = () => {
-  Alert.alert(
-    "Confirm Logout",
-    "Are you sure you want to log out?",
-    [
-      {
-        text: "Cancel",
-        style: "cancel"
-      },
-      {
-        text: "Log Out",
-        style: "destructive",
-        onPress: () => signOut()
-      }
-    ]
-  );
-}
+  const handleSignOut = () => {
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Log Out",
+          style: "destructive",
+          onPress: () => signOut()
+        }
+      ]
+    );
+  }
   return (
     <View style={styles.container}>
       {/* HEADER */}
@@ -61,15 +63,18 @@ const handleSignOut = () => {
           <ThemeToggle />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => router.push("/categories/All")}
+        >
           <View style={styles.menuLeft}>
             <Ionicons name="list" size={20} color={theme.text} style={styles.iconContainer} />
             <Text style={styles.menuTitle}>Categories</Text>
           </View>
+
           <Ionicons name="chevron-forward" size={20} color={theme.text} />
         </TouchableOpacity>
-
-
+        {/* HANDLE SIGN OUT */}
         <TouchableOpacity style={styles.menuItem} onPress={handleSignOut}>
           <View style={styles.menuLeft}>
             <Ionicons name="log-out" size={20} color={theme.danger} style={styles.iconContainer} />
@@ -79,13 +84,11 @@ const handleSignOut = () => {
         </TouchableOpacity>
       </View>
 
-      {/* SIGN OUT CONFIRMATION */}
+
     </View>
   )
 }
 
 export default Profile
 
-// I want to show Alert.alert when user clicks on logout, asking them to confirm if they want to log out. If they confirm, then I will call the signOut function from my auth context.
-// give me code for that.
 
