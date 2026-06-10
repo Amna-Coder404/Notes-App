@@ -1,50 +1,43 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+
 import React, { useState } from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTheme } from '@/hooks/useTheme'
-import { useRouter } from 'expo-router'
-import Create from './CreateNotesModal'
+import { StyleSheet, Text, View } from 'react-native';
 
-export default function NotFound() {
+export default function NotFound({ text, icon }: any) {
     const { theme } = useTheme();
-    const [showAddNoteModal, setShowAddNoteModal] = useState(false);
-    const router = useRouter()
     
+
+
     return (
-        <TouchableOpacity style={styles.container} onPress={() => setShowAddNoteModal(true)}>
+        <View style={styles.container} >
             <Ionicons
-                name="create-outline"
+                name={icon}
                 size={70}
                 color={theme.mutedText}
             />
             <Text style={[styles.title, { color: theme.text }]}>
-                No notes yet
+                {text}
             </Text>
-            <Text style={[styles.subtitle, { color: theme.mutedText }]}>
-                Start by creating your first note ✨
-            </Text>
-            <Create
-                visible={showAddNoteModal}
-                onClose={() => setShowAddNoteModal(false)}
-            />
-        </TouchableOpacity>
 
-    )
-}
-
-export const NotFavYet = () => {
-    const { theme } = useTheme();
-    return (
-        <View style={styles.container}>
-            <MaterialCommunityIcons name="cards-playing-heart-multiple" size={50} color={theme.mutedText} />
-
-
-            <Text style={[styles.title, { color: theme.text }]}>
-                No favorite notes yet
-            </Text>
+    
         </View>
+
     )
 }
+
+// export const NotFavYet = () => {
+//     const { theme } = useTheme();
+//     return (
+//         <View style={styles.container}>
+//             <MaterialCommunityIcons name="cards-playing-heart-multiple" size={50} color={theme.mutedText} />
+
+//             <Text style={[styles.title, { color: theme.text }]}>
+//                 No favorite notes yet
+//             </Text>
+//         </View>
+//     )
+// }
 
 const styles = StyleSheet.create({
     container: {

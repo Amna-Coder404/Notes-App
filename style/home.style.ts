@@ -4,8 +4,11 @@ export const createHomeStyles = (theme: any) =>
   StyleSheet.create({
     container: {
       flex: 1,
+
       backgroundColor: theme.bg,
       paddingHorizontal: 20,
+      
+      paddingBottom: 29
     },
 
     header: {
@@ -57,7 +60,6 @@ export const createHomeStyles = (theme: any) =>
     },
 
     searchInput: {
-
       marginTop: 10,
       padding: 10,
       borderWidth: 1,
@@ -90,17 +92,7 @@ export const createHomeStyles = (theme: any) =>
       color: theme.text,
     },
 
-    viewAll: {
-      color: theme.primary,
-      fontSize: 15,
-      fontWeight: "600",
-    },
-
-    categoriesRow: {
-      backgroundColor: "red",
-      flexDirection: "row",
-      gap: 10,
-    },
+  
 
     categoryCard: {
       width: 100,
@@ -210,5 +202,23 @@ export const createHomeStyles = (theme: any) =>
     selectCategory: {
      backgroundColor: theme.primary ,
     
-    }
+    },
+    emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 60,
+},
+
+emptyTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#999",
+},
+
+emptySubtitle: {
+    fontSize: 14,
+    marginTop: 6,
+    color: "#666",
+},
   });

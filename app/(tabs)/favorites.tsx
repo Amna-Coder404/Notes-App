@@ -1,10 +1,11 @@
 import Loader from '@/components/Loader';
-import { NotFavYet } from '@/components/NotFound';
+import NotFound from '@/components/NotFound';
+
 import { api } from '@/convex/_generated/api';
 import { useDbUser } from '@/hooks/useDbUser';
 import { useTheme } from '@/hooks/useTheme';
 import { createHomeStyles } from '@/style/home.style';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome} from '@expo/vector-icons';
 import { useMutation, useQuery } from 'convex/react';
 import { formatDistanceToNow } from "date-fns";
 import React from 'react';
@@ -49,7 +50,8 @@ const Favorites = () => {
                 <View style={styles.noteBetween}>
                   <Text style={styles.noteTitle}>{note.title || "Untitle"}</Text>
                   <TouchableOpacity onPress={() => handleToggleStar(note._id)}>
-                    <Ionicons name="star" size={18} color={note.isFavorite ? "#CEC436" : theme.mutedText} />
+                
+                      <FontAwesome name={note.isFavorite ? "star" : "star-o"} size={18} color={note.isFavorite ? "#CEC436" : theme.mutedText} />
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.noteDescription}>{note.content}</Text>
@@ -62,7 +64,7 @@ const Favorites = () => {
               </View>
             ))}</>
         ) : (
-          <NotFavYet />
+         <NotFound text={"   No favorite notes yet"} icon={"book"}/>
         )
       }
 

@@ -61,6 +61,7 @@ export const profileScreenStyles = (theme: any) =>
         menuLeft: {
             flexDirection: "row",
             alignItems: "center",
+            gap: 12
         },
 
         iconContainer: {
@@ -77,6 +78,7 @@ export const profileScreenStyles = (theme: any) =>
             fontSize: 16,
             fontWeight: "600",
             color: theme.text,
+
         },
 
 
@@ -95,10 +97,10 @@ export const profileScreenStyles = (theme: any) =>
             paddingHorizontal: 23,
 
         },
-        categoryContainerMain : {
-             flex: 1,
+        categoryContainerMain: {
+            flex: 1,
             backgroundColor: theme.bg,
-         
+
         },
 
         categoryBtn: {
@@ -118,9 +120,7 @@ export const profileScreenStyles = (theme: any) =>
             color: theme.text,
         },
 
-        categoryBtnIcon: {
-            color: theme.text,
-        },
+
         headerRow: {
             flexDirection: "row",
             alignItems: "center",
@@ -129,5 +129,26 @@ export const profileScreenStyles = (theme: any) =>
             paddingVertical: 12,
             borderBottomWidth: 1,
             borderBottomColor: "rgba(150,150,150,0.15)",
-        }
+        },
+        iconCateContainer: {
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#1e293b67",
+        },
+
+        icon: {
+            color: theme.text,
+        },
+        dangerZoneTitle: {
+            fontSize: 20,
+            fontWeight: "700",
+            color: "#E53935",
+            letterSpacing: 0.5,
+            paddingHorizontal: 23,
+            paddingVertical: 20
+        },
+        
     });

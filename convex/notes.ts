@@ -133,3 +133,24 @@ export const getPinnedNotes = query({
       .collect();
   },
 });
+
+
+// Reset
+
+export const deleteAllNotes = mutation({
+  args: {
+    clerkId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const notes = await ctx.db
+      .query("notes")
+      .filter((q) => q.eq(q.field("clerkId"), args.clerkId))
+      .collect();
+
+    
+for (const note of notes) {
+      await ctx.db.delete(note._id);
+    }
+    return { success: true, deleted: notes.length };
+  },
+});

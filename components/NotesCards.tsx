@@ -1,6 +1,6 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -62,6 +62,10 @@ const NotesCards = () => {
         if (isSearching) return [];
         return notes.filter((note) => note.isPinned);
     }, [notes, isSearching]);
+    if (!notes || !filteredNotes) return <Loader />
+
+    const isEmptySearchResult = isSearching && filteredNotes.length === 0;
+    const isSearchingResult = !isSearching && filteredPinnedNotes.length > 0;
 
     const onSaveEdit = async (data: {
         title: string;
@@ -85,11 +89,7 @@ const NotesCards = () => {
 
                 <View style={styles.noteBetween}>
                     <TouchableOpacity onPress={() => handleToggleStar(item._id)}>
-                        <AntDesign
-                            name="star"
-                            size={18}
-                            color={item.isFavorite ? "#CEC436" : theme.text}
-                        />
+                        <FontAwesome name={item.isFavorite ? "star" : "star-o"} size={18} color={item.isFavorite ? "#CEC436" : theme.text} />
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -154,13 +154,12 @@ const NotesCards = () => {
                                     </View>
 
                                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                                        <TouchableOpacity
-                                            onPress={() => setSelectedCategory("All")}
+                                        <TouchableOpacity onPress={() => setSelectedCategory("All")}
                                             style={[
                                                 styles.categoryCard,
                                                 selectedCategory === "All" && styles.selectCategory
-                                            ]}
-                                        >
+                                            ]} >
+
                                             <Text style={styles.categoryText}>All</Text>
                                             <Text style={styles.categoryCount}>
                                                 {allNotesCount}
@@ -189,7 +188,7 @@ const NotesCards = () => {
                             )}
 
                             {/* PINNED (HIDDEN WHEN SEARCHING) */}
-                            {!isSearching && filteredPinnedNotes.length > 0 && (
+                            {isSearchingResult && (
                                 <>
                                     <View style={styles.sectionHeader}>
                                         <Text style={styles.sectionTitle}>
@@ -204,20 +203,8 @@ const NotesCards = () => {
                                                     {note.title || "Untitled"}
                                                 </Text>
 
-                                                <TouchableOpacity
-                                                    onPress={() =>
-                                                        handleTogglePinned(note._id)
-                                                    }
-                                                >
-                                                    <AntDesign
-                                                        name="pushpin"
-                                                        size={18}
-                                                        color={
-                                                            note.isPinned
-                                                                ? "#CEC436"
-                                                                : theme.mutedText
-                                                        }
-                                                    />
+                                                <TouchableOpacity onPress={() => handleTogglePinned(note._id)}>
+                                                    <AntDesign name="pushpin" size={18} color={note.isPinned ? "#CEC436" : theme.mutedText} />
                                                 </TouchableOpacity>
                                             </View>
 
@@ -230,17 +217,21 @@ const NotesCards = () => {
                             )}
 
                             {/* HEADER */}
-                            <View style={styles.sectionHeader}>
-                                <Text style={styles.sectionTitle}>
-                                    All Notes
-                                </Text>
+                            <View>
+                                <View style={styles.sectionHeader}>
+                                    <Text style={styles.sectionTitle}>
+                                        {isSearching ? "Results" : " All Notes"}
+                                    </Text>
+                                </View>
+                                {isEmptySearchResult && (
+                                    <NotFound text={" Failed to find results"} />
+                                )}
                             </View>
-
                         </>
                     }
                 />
             ) : (
-                <NotFound />
+                <NotFound text={"Not notes Yet"} icon={"create-outline"}/>
             )}
 
             {/* EDIT BTN */}

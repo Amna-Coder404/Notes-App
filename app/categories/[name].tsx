@@ -1,14 +1,21 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useNotes } from "@/hooks/useNotes";
 import { profileScreenStyles } from "@/style/profile.stlye";
 import { useTheme } from "@/hooks/useTheme";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+const categoryIcons = {
+    Study: "book",
+    Programming: "code",
+    Personal: "user",
+    Ideas: "lightbulb",
+    Goals: "bullseye",
+    Other: "folder",
+}as any;
 export default function CategoryDetails() {
-    const { name } = useLocalSearchParams();
-    const router = useRouter(); 
+
+    const router = useRouter();
 
     const { allNotesCount, fullCategoryList } = useNotes();
 
@@ -22,7 +29,7 @@ export default function CategoryDetails() {
 
             {/* HEADER WITH BACK BUTTON */}
             <View style={styles.headerRow}>
-                
+
                 {/* BACK BUTTON */}
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons
@@ -34,7 +41,7 @@ export default function CategoryDetails() {
 
                 {/* TITLE */}
                 <Text style={styles.menuTitle}>
-                   All Categories
+                    All Categories
                 </Text>
 
                 {/* EMPTY SPACE (for alignment) */}
@@ -46,7 +53,13 @@ export default function CategoryDetails() {
 
                 {/* ALL */}
                 <View style={styles.categoryBtn}>
-                    <Text style={styles.categoryText}>All </Text>
+                    <View style={styles.menuLeft} >
+                        <View style={styles.iconCateContainer}>
+                            <FontAwesome6 name="notes-medical" style={styles.icon} />
+                        </View>
+                        <Text style={styles.categoryText}>All </Text>
+                    </View>
+
                     <Text style={styles.categoryText}>
                         {allNotesCount}
                     </Text>
@@ -55,9 +68,16 @@ export default function CategoryDetails() {
                 {/* FIXED CATEGORIES */}
                 {fullCategoryList.map((item) => (
                     <View key={item.name} style={styles.categoryBtn}>
+
+                       <View style={styles.menuLeft}>
+                        <View style={styles.iconCateContainer}>
+                            <FontAwesome6 name={categoryIcons[item.name]|| "folder"} style={styles.icon} />
+                        </View>
                         <Text style={styles.categoryText}>
                             {item.name}
                         </Text>
+                       </View>
+                       
                         <Text style={styles.categoryText}>
                             {item.count}
                         </Text>

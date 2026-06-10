@@ -29,10 +29,18 @@ export const useNotes = () => {
     const deleteNote = useMutation(api.notes.deleteNote);
     const toggleFavorite = useMutation(api.notes.toggleFavorite);
     const togglePinned = useMutation(api.notes.togglePinned);
-
+    const deleteAllNotes = useMutation(api.notes.deleteAllNotes);
 
     // Derived Data
-
+    const handleDeleteAllNotes = async (clerkId: string) => {
+        try {
+            const res = await deleteAllNotes({ clerkId });
+            return res;
+        } catch (error) {
+            console.log("Delete All Notes Error:", error);
+            throw new Error("Failed to delete all notes");
+        }
+    };
     const categoryStats = useMemo(() => {
         if (!notes) return [];
 
@@ -72,6 +80,7 @@ export const useNotes = () => {
 
             const matchNotes = note.title?.toLowerCase().includes(searchText.toLowerCase()) ||
                 note.content.toLowerCase().includes(searchText.toLowerCase());
+
             return matchCategory && matchNotes;
 
         })
@@ -138,7 +147,8 @@ export const useNotes = () => {
         setSearchText,
         searchText,
         selectedCategory,
-        setSelectedCategory
+        setSelectedCategory,
+        handleDeleteAllNotes
     };
 };
 
