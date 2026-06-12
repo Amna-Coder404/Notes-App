@@ -11,17 +11,16 @@ import { KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, Tou
 
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { Image } from "react-native";
-import { resourceUsage } from 'node:process';
 
-const Create = ({ visible, onClose }: any) => {
+
+const CreateTextNotes = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
     const styles = createStyles(theme);
     const modalStlyes = modalStlye(theme);
     const { dbUser } = useDbUser();
     const { categories } = useNotes();
 
-    const { image, pickImage, uploadImageToConvex, setImage } =
-        useImageUpload();
+    
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -53,30 +52,21 @@ const Create = ({ visible, onClose }: any) => {
         }
 
         if (hasError) return;
-
-        console.log("STEP 1: function started");
-        console.log("user:", dbUser);
-        console.log("content:", content);
-        console.log("category:", category);
-        console.log("image:", image);
+        
         setLoading(true);
         try {
-            const storageId = await uploadImageToConvex();
-
-
-
             await createNote({
                 clerkId: dbUser?.clerkId,
+                type: "text",
                 title: title,
                 categories: category ? [category] : [],
                 content: content,
-                imageUrl: storageId//StoreageId OR nothing "undefined"
+                imageUrl: undefined
             })
 
             setTitle("");
             setContent("");
             setCategory("");
-            setImage(null);
             onClose();
         }
         catch (error) {
@@ -87,7 +77,7 @@ const Create = ({ visible, onClose }: any) => {
         }
     }
     const handleClose = () => {
-        setImage(null);
+       
         setTitle("");
         setContent("");
         setCategory("");
@@ -134,35 +124,6 @@ const Create = ({ visible, onClose }: any) => {
                             onChangeText={setTitle}
                         />
                         {/* IMAGE PICKER */}
-                        <Text style={styles.label}>Image (optional)</Text>
-
-                        <TouchableOpacity
-                            onPress={pickImage}
-                            style={{
-                                padding: 12,
-                                borderRadius: 10,
-                                borderWidth: 1,
-                                borderColor: theme.mutedText,
-                                marginBottom: 10,
-                            }}
-                        >
-                            <Text style={{ color: theme.text }}>
-                                {image ? "Change Image" : "Add Image"}
-                            </Text>
-                        </TouchableOpacity>
-
-                        {/* PREVIEW */}
-                        {image && (
-                            <Image
-                                source={{ uri: image }}
-                                style={{
-                                    width: "100%",
-                                    height: 160,
-                                    borderRadius: 12,
-                                    marginBottom: 10,
-                                }}
-                            />
-                        )}
                         <Text style={styles.label}>Category</Text>
                         <TouchableOpacity
                             style={styles.dropdown}
@@ -224,4 +185,4 @@ const Create = ({ visible, onClose }: any) => {
     )
 }
 
-export default Create
+export default CreateTextNotes

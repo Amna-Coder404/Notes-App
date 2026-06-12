@@ -1,6 +1,6 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -10,7 +10,6 @@ import EditBtn from "./EditBtn";
 import EditNoteModal, { DeleteNote } from "./EditNoteModal";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
-import { useImageUrl } from "../hooks/useImageUrl";
 import { RenderNotesCards } from "./RenderNoteCards";
 
 const NotesCards = () => {
@@ -19,7 +18,6 @@ const NotesCards = () => {
 
     const {
         notes,
-        pinnedNotes,
         categoryStats,
         allNotesCount,
         handleEditSave,
@@ -75,6 +73,7 @@ const NotesCards = () => {
         setSelectedNote(null);
     };
 
+    // Render Note cards
     const renderNote = ({ item }: any) => (
         <RenderNotesCards
             item={item}
@@ -161,6 +160,12 @@ const NotesCards = () => {
 
                                     {filteredPinnedNotes.map((note) => (
                                         <View key={note._id} style={styles.noteCard}>
+                                              {note.imageUrl && (
+                                                              <Image
+                                                                source={{ uri: note.imageUrl }}
+                                                                style={{ width: 100, height: 100, borderRadius: 10 }}
+                                                              />
+                                                            )}
                                             <View style={styles.noteBetween}>
                                                 <Text style={styles.noteTitle}>
                                                     {note.title || "Untitled"}

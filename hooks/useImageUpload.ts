@@ -43,11 +43,22 @@ export const useImageUpload = () => {
 
     return storageId ?? undefined;
   };
+   const takePhoto = async () => {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 0.8,
+      });
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    };
 
   return {
     image,
     setImage,
     pickImage,
     uploadImageToConvex,
+    takePhoto
   };
 };

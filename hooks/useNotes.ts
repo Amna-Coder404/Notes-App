@@ -21,7 +21,7 @@ export const useNotes = () => {
     const notes = useQuery(api.notes.getAllNotes, dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip");
     const pinnedNotes = useQuery(
         api.notes.getPinnedNotes,
-        dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip" );
+        dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip");
 
     // MUTATIONS
     const updateNotes = useMutation(api.notes.editNotes);
@@ -70,22 +70,37 @@ export const useNotes = () => {
     const [searchText, setSearchText] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
 
-    const filteredNotes = useMemo(() => {
-        if (!notes) return null;
+   const filteredNotes = useMemo(() => {
+    if (!notes) return [];
 
-        return notes.filter((note) => {
-            const matchCategory = selectedCategory === "All" ||
-                note.categories?.includes(selectedCategory);
+    const q = searchText.trim().toLowerCase();
 
-            const matchNotes = note.title?.toLowerCase().includes(searchText.toLowerCase()) ||
-                note.content.toLowerCase().includes(searchText.toLowerCase());
+    return notes.filter((note) => {
+        const matchCategory =
+            selectedCategory === "All" ||
+            note.categories.includes(selectedCategory);
 
-            return matchCategory && matchNotes;
+        let text = "";
 
-        })
+        // TYPE-BASED SEARCH (IMPORTANT)
+        if (note.type === "text") {
+            text = `${note.title ?? ""} ${note.content ?? ""}`;
+        }
 
-    }, [notes, searchText, selectedCategory])
+        if (note.type === "image") {
+            text = `${note.title ?? ""} ${note.caption ?? ""}`;
+        }
 
+        if (note.type === "voice") {
+            text = `${note.title ?? ""}`;
+        }
+
+        const matchSearch =
+            q === "" || text.toLowerCase().includes(q);
+
+        return matchCategory && matchSearch;
+    });
+}, [notes, searchText, selectedCategory]);
     // Actions
     const handleEditSave = async (
         noteId: Id<"notes">,

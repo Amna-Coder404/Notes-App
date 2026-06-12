@@ -4,21 +4,18 @@ import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
 import { formatDistanceToNow } from "date-fns";
 import { Image } from "react-native";
-import { useImageUrl } from "../hooks/useImageUrl";
 
 
 export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSelectedNote }: any) => {
     const { theme } = useTheme();
     const styles = createHomeStyles(theme);
-    const imageUrl = useImageUrl(item.imageUrl);
-
 
     return (
 
         <View style={styles.noteCard}>
-            {imageUrl && (
+            {item.imageUrl && (
                 <Image
-                    source={{ uri: imageUrl }}
+                    source={{ uri: item.imageUrl }}
                     style={{
                         width: "100%",
                         height: 160,

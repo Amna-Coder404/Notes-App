@@ -1,15 +1,14 @@
 import Loader from '@/components/Loader';
 import NotFound from '@/components/NotFound';
-
 import { api } from '@/convex/_generated/api';
 import { useDbUser } from '@/hooks/useDbUser';
 import { useTheme } from '@/hooks/useTheme';
 import { createHomeStyles } from '@/style/home.style';
-import { FontAwesome} from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { useMutation, useQuery } from 'convex/react';
 import { formatDistanceToNow } from "date-fns";
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Favorites = () => {
@@ -29,46 +28,63 @@ const Favorites = () => {
         noteId,
       });
     }
-    catch (error) {
+    catch {
       throw new Error("Faild to Star ");
     }
   }
 
   if (staredNotes === undefined) return <Loader />
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Favorites</Text>
+
+  const renderFavoriteNote = ({ item: note }: any) => (
+    <View style={styles.noteCard}>
+      {note.imageUrl && (
+        <Image
+          source={{ uri: note.imageUrl }}
+          style={{ width: 100, height: 100, borderRadius: 10 }}
+        />
+      )}
+
+      <View style={styles.noteBetween}>
+        <Text style={styles.noteTitle}>{note.title || "Untitled"}</Text>
+        <TouchableOpacity onPress={() => handleToggleStar(note._id)}>
+          <FontAwesome
+            name={note.isFavorite ? "star" : "star-o"}
+            size={18}
+            color={note.isFavorite ? "#CEC436" : theme.mutedText}
+          />
+        </TouchableOpacity>
       </View>
 
-      {
-        staredNotes.length > 0 ? (
-          <>
-            {staredNotes?.map((note) => (
-              <View key={note._id} style={styles.noteCard}>
+      <Text style={styles.noteDescription}>
+        {note.content || note.caption}
+      </Text>
 
-                <View style={styles.noteBetween}>
-                  <Text style={styles.noteTitle}>{note.title || "Untitle"}</Text>
-                  <TouchableOpacity onPress={() => handleToggleStar(note._id)}>
-                
-                      <FontAwesome name={note.isFavorite ? "star" : "star-o"} size={18} color={note.isFavorite ? "#CEC436" : theme.mutedText} />
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.noteDescription}>{note.content}</Text>
-                <Text style={styles.noteDate}>
-                  {formatDistanceToNow(
-                    new Date(note.createdAt),
-                    { addSuffix: true }
-                  )}
-                </Text>
-              </View>
-            ))}</>
-        ) : (
-         <NotFound text={"   No favorite notes yet"} icon={"book"}/>
-        )
-      }
+      <Text style={styles.noteDate}>
+        {formatDistanceToNow(
+          new Date(note.createdAt),
+          { addSuffix: true }
+        )}
+      </Text>
+    </View>
+  );
 
-
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={staredNotes}
+        keyExtractor={(note) => note._id}
+        renderItem={renderFavoriteNote}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.cardContainer}
+        ListHeaderComponent={
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Favorites</Text>
+          </View>
+        }
+        ListEmptyComponent={
+          <NotFound text={"No favorite notes yet"} icon={"book"} />
+        }
+      />
     </SafeAreaView>
   )
 }
