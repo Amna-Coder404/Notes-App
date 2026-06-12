@@ -26,19 +26,6 @@ export default function NotFound({ text, icon }: any) {
     )
 }
 
-// export const NotFavYet = () => {
-//     const { theme } = useTheme();
-//     return (
-//         <View style={styles.container}>
-//             <MaterialCommunityIcons name="cards-playing-heart-multiple" size={50} color={theme.mutedText} />
-
-//             <Text style={[styles.title, { color: theme.text }]}>
-//                 No favorite notes yet
-//             </Text>
-//         </View>
-//     )
-// }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

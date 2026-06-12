@@ -1,6 +1,6 @@
 
 import Create from '@/components/CreateNotesModal'
-import Loader from '@/components/Loader'
+import FullImageModal from '@/components/FullImageMode'
 import NotesCards from '@/components/NotesCards'
 import { useDbUser } from '@/hooks/useDbUser'
 import { useTheme } from '@/hooks/useTheme'
@@ -16,6 +16,7 @@ const Home = () => {
   const styles = createHomeStyles(theme);
   const { dbUser } = useDbUser();
   const [showAddNoteModal, setShowAddNoteModal] = useState(false);
+  const [showProfileImage, setShowProfileImage] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,16 +34,19 @@ const Home = () => {
 
         <TouchableOpacity style={styles.profileBtn}>
           {dbUser?.imageUrl && (
-            <Image
+           <TouchableOpacity onPress={() => setShowProfileImage(true)}>
+             <Image
               source={{ uri: dbUser.imageUrl }}
               style={styles.profilePic}
             />
+            </TouchableOpacity>
           )}
         </TouchableOpacity>
       </View>
-      
+
       <NotesCards />
       <Create visible={showAddNoteModal} onClose={() => setShowAddNoteModal(false)} />
+      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v) => setShowProfileImage(v)} />
 
     </SafeAreaView>
 

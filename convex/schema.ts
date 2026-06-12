@@ -19,6 +19,7 @@ export default defineSchema({
         categories: v.array(v.string()),
         isFavorite: v.optional(v.boolean()), // ⭐ important
         isPinned: v.optional(v.boolean()),   // optional (extra feature)
+        imageUrl: v.optional(v.id("_storage")),
 
         createdAt: v.number(),
     }).index("by_clerkId", ["clerkId"]),

@@ -11,14 +11,17 @@ import { useAuth } from '@clerk/clerk-expo'
 
 import { useRouter } from "expo-router";
 import { useNotes } from '@/hooks/useNotes'
+import FullImageModal from '@/components/FullImageMode'
 
 
 const Profile = () => {
   const { theme } = useTheme();
+
   const styles = profileScreenStyles(theme);
   const { signOut } = useAuth();
   const router = useRouter();
 
+  const [showProfileImage, setShowProfileImage] = useState(false);
   const { notes, handleDeleteAllNotes } = useNotes();
   const { dbUser } = useDbUser();
   const fullname = dbUser?.firstname + " " + dbUser?.lastname;
@@ -72,7 +75,9 @@ const Profile = () => {
     <View style={styles.container}>
       {/* HEADER */}
       <View style={styles.header}>
-        <Image style={styles.profileImage} source={{ uri: dbUser?.imageUrl }} />
+        <TouchableOpacity onPress={() => setShowProfileImage(true)}>
+          <Image style={styles.profileImage} source={{ uri: dbUser?.imageUrl }} />
+        </TouchableOpacity>
 
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{fullname}</Text>
@@ -102,10 +107,10 @@ const Profile = () => {
           <Ionicons name="chevron-forward" size={20} color={theme.text} />
         </TouchableOpacity>
 
-       
+
 
         <Text style={styles.dangerZoneTitle}>Danger Zone</Text>
-  
+
         {/* DELTE ALL NOTES */}
         <TouchableOpacity style={styles.menuItem} onPress={ResetApp}>
           <View style={styles.menuLeft}>
@@ -126,7 +131,7 @@ const Profile = () => {
           <Ionicons name="chevron-forward" size={20} color={theme.text} />
         </TouchableOpacity>
       </View>
-
+      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v) => setShowProfileImage(v)} />
 
     </View>
   )

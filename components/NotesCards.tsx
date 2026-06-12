@@ -1,22 +1,17 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
-import { formatDistanceToNow } from "date-fns";
+
 import React, { useEffect, useMemo, useState } from "react";
-import {
-    FlatList,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from "react-native";
+import { FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { useNotes } from "@/hooks/useNotes";
 import EditBtn from "./EditBtn";
 import EditNoteModal, { DeleteNote } from "./EditNoteModal";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
+import { useImageUrl } from "../hooks/useImageUrl";
+import { RenderNotesCards } from "./RenderNoteCards";
 
 const NotesCards = () => {
     const { theme } = useTheme();
@@ -63,7 +58,7 @@ const NotesCards = () => {
         return notes.filter((note) => note.isPinned);
     }, [notes, isSearching]);
     if (!notes || !filteredNotes) return <Loader />
-
+   
     const isEmptySearchResult = isSearching && filteredNotes.length === 0;
     const isSearchingResult = !isSearching && filteredPinnedNotes.length > 0;
 
@@ -81,45 +76,13 @@ const NotesCards = () => {
     };
 
     const renderNote = ({ item }: any) => (
-        <View style={styles.noteCard}>
-            <View style={styles.noteBetween}>
-                <Text style={styles.noteTitle}>
-                    {item.title || "Untitled"}
-                </Text>
-
-                <View style={styles.noteBetween}>
-                    <TouchableOpacity onPress={() => handleToggleStar(item._id)}>
-                        <FontAwesome name={item.isFavorite ? "star" : "star-o"} size={18} color={item.isFavorite ? "#CEC436" : theme.text} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={(event) => {
-                            const { pageX, pageY } = event.nativeEvent;
-                            setDropdownPos({ x: pageX, y: pageY });
-                            setSelectedNote(item);
-                        }}
-                    >
-                        <Entypo name="dots-three-vertical" size={20} color={theme.mutedText} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <Text style={styles.noteDescription}>{item.content}</Text>
-
-            <View style={styles.noteBetween}>
-                <Text style={styles.noteCategory}>
-                    {item.categories}
-                </Text>
-
-                <Text style={styles.noteDate}>
-                    {formatDistanceToNow(new Date(item.createdAt), {
-                        addSuffix: true
-                    })}
-                </Text>
-            </View>
-        </View>
-    );
-
+        <RenderNotesCards
+            item={item}
+            handleToggleStar={handleToggleStar}
+            setDropdownPos={setDropdownPos}
+            setSelectedNote={setSelectedNote}
+        />
+    )
     return (
         <>
             {/* LOADER */}
@@ -231,7 +194,7 @@ const NotesCards = () => {
                     }
                 />
             ) : (
-                <NotFound text={"Not notes Yet"} icon={"create-outline"}/>
+                <NotFound text={"Not notes Yet"} icon={"create-outline"} />
             )}
 
             {/* EDIT BTN */}

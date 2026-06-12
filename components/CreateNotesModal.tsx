@@ -7,9 +7,11 @@ import { modalStlye } from '@/style/modal.stlye';
 import { Ionicons } from '@expo/vector-icons';
 import { useMutation } from 'convex/react';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-
+import { useImageUpload } from "@/hooks/useImageUpload";
+import { Image } from "react-native";
+import { resourceUsage } from 'node:process';
 
 const Create = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
@@ -17,6 +19,9 @@ const Create = ({ visible, onClose }: any) => {
     const modalStlyes = modalStlye(theme);
     const { dbUser } = useDbUser();
     const { categories } = useNotes();
+
+    const { image, pickImage, uploadImageToConvex, setImage } =
+        useImageUpload();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -49,19 +54,29 @@ const Create = ({ visible, onClose }: any) => {
 
         if (hasError) return;
 
-
+        console.log("STEP 1: function started");
+        console.log("user:", dbUser);
+        console.log("content:", content);
+        console.log("category:", category);
+        console.log("image:", image);
         setLoading(true);
         try {
+            const storageId = await uploadImageToConvex();
+
+
+
             await createNote({
                 clerkId: dbUser?.clerkId,
                 title: title,
                 categories: category ? [category] : [],
-                content: content
+                content: content,
+                imageUrl: storageId//StoreageId OR nothing "undefined"
             })
 
             setTitle("");
             setContent("");
             setCategory("");
+            setImage(null);
             onClose();
         }
         catch (error) {
@@ -71,15 +86,22 @@ const Create = ({ visible, onClose }: any) => {
             setLoading(false);
         }
     }
+    const handleClose = () => {
+        setImage(null);
+        setTitle("");
+        setContent("");
+        setCategory("");
+        onClose();
+    };
 
     return (
-        <Modal visible={visible} animationType="slide" transparent={false} onRequestClose={onClose}>
+        <Modal visible={visible} animationType="slide" transparent={false} onRequestClose={handleClose}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={modalStlyes.modalContainer}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
             >
-                <View style={modalStlyes.modalContainer}>
+                <ScrollView style={modalStlyes.modalContainer}>
                     {/* HEADER */}
                     <View style={modalStlyes.modalHeader}>
                         <TouchableOpacity onPress={onClose}>
@@ -95,7 +117,7 @@ const Create = ({ visible, onClose }: any) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    
+
 
                     <View style={styles.formContainer}>
                         <View style={styles.header}>
@@ -111,7 +133,36 @@ const Create = ({ visible, onClose }: any) => {
                             placeholder='Add title'
                             onChangeText={setTitle}
                         />
+                        {/* IMAGE PICKER */}
+                        <Text style={styles.label}>Image (optional)</Text>
 
+                        <TouchableOpacity
+                            onPress={pickImage}
+                            style={{
+                                padding: 12,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                borderColor: theme.mutedText,
+                                marginBottom: 10,
+                            }}
+                        >
+                            <Text style={{ color: theme.text }}>
+                                {image ? "Change Image" : "Add Image"}
+                            </Text>
+                        </TouchableOpacity>
+
+                        {/* PREVIEW */}
+                        {image && (
+                            <Image
+                                source={{ uri: image }}
+                                style={{
+                                    width: "100%",
+                                    height: 160,
+                                    borderRadius: 12,
+                                    marginBottom: 10,
+                                }}
+                            />
+                        )}
                         <Text style={styles.label}>Category</Text>
                         <TouchableOpacity
                             style={styles.dropdown}
@@ -167,7 +218,7 @@ const Create = ({ visible, onClose }: any) => {
                             showContentError && (<Text style={styles.errorText}>Please Write your note </Text>)
                         }
                     </View>
-                </View>
+                </ScrollView>
             </KeyboardAvoidingView>
         </Modal>
     )

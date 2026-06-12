@@ -21,8 +21,7 @@ export const useNotes = () => {
     const notes = useQuery(api.notes.getAllNotes, dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip");
     const pinnedNotes = useQuery(
         api.notes.getPinnedNotes,
-        dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip"
-    );
+        dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip" );
 
     // MUTATIONS
     const updateNotes = useMutation(api.notes.editNotes);

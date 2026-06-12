@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+const { width, height } = Dimensions.get("window");
+
 
 export const profileScreenStyles = (theme: any) =>
     StyleSheet.create({
@@ -150,5 +152,26 @@ export const profileScreenStyles = (theme: any) =>
             paddingHorizontal: 23,
             paddingVertical: 20
         },
-        
+        modalBackdrop: {
+            flex: 1,
+            backgroundColor: "#3f3f3f6b",
+            justifyContent: "center",
+        },
+        postDetailContainer: {
+            
+            maxHeight: height * 0.9,
+        },
+        postDetailHeader: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            padding: 12,
+            borderBottomWidth: 0.5,
+            borderBottomColor: theme.surface,
+        },
+        postDetailImage: {
+            width: width,
+            height: width,
+        },
+
     });
