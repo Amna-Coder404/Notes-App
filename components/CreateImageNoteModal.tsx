@@ -85,21 +85,22 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={modalStyles.modalContainer}
             >
+                {/* HEADER */}
+                <View style={modalStyles.modalHeader}>
+                    <TouchableOpacity onPress={handleClose}>
+                        <Ionicons name="close" size={24} color={theme.mutedText} />
+                    </TouchableOpacity>
+
+                    <Text style={modalStyles.modalTitle}>Image Note</Text>
+
+                    <TouchableOpacity onPress={handleCreate} disabled={loading}>
+                        <Text style={modalStyles.savebtnText}>
+                            {loading ? "Saving..." : "Save"}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 <ScrollView>
-                    {/* HEADER */}
-                    <View style={modalStyles.modalHeader}>
-                        <TouchableOpacity onPress={handleClose}>
-                            <Ionicons name="close" size={24} color={theme.mutedText} />
-                        </TouchableOpacity>
 
-                        <Text style={modalStyles.modalTitle}>Image Note</Text>
-
-                        <TouchableOpacity onPress={handleCreate} disabled={loading}>
-                            <Text style={modalStyles.savebtnText}>
-                                {loading ? "Saving..." : "Save"}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
 
                     <View style={styles.formContainer}>
                         {/* IF NO IMAGE → SHOW CHOICES */}
@@ -131,7 +132,7 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                                         width: "80%",
                                     }}
                                 >
-                                    <Text style={{ color: theme.text }}>🖼 Pick from Gallery</Text>
+                                    <Text style={modalStyles.buttonText}>🖼 Pick from Gallery</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -139,15 +140,13 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                         {/* AFTER IMAGE SELECTED */}
                         {image && (
                             <>
-                                <Image
-                                    source={{ uri: image }}
-                                    style={{
-                                        width: "100%",
-                                        height: 200,
-                                        borderRadius: 12,
-                                        marginBottom: 15,
-                                    }}
-                                />
+                                <View>
+                                    <Image source={{ uri: image }} style={modalStyles.createImage} />
+                                    <TouchableOpacity onPress={pickImage} style={modalStyles.changeBtn}>
+                                        <Text style={modalStyles.buttonText}>Change Image</Text>
+                                    </TouchableOpacity>
+                                </View>
+
 
                                 <Text style={styles.label}>Title</Text>
                                 <TextInput

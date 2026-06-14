@@ -5,23 +5,18 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { formatDistanceToNow } from "date-fns";
 import { Image } from "react-native";
 
-
 export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSelectedNote }: any) => {
+    
     const { theme } = useTheme();
     const styles = createHomeStyles(theme);
-
+  
     return (
 
         <View style={styles.noteCard}>
             {item.imageUrl && (
                 <Image
                     source={{ uri: item.imageUrl }}
-                    style={{
-                        width: "100%",
-                        height: 160,
-                        borderRadius: 12,
-                        marginBottom: 10,
-                    }}
+                    style={styles.noteImage}
                     resizeMode="cover"
                 />
             )}
@@ -56,9 +51,10 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
                 </Text>
 
                 <Text style={styles.noteDate}>
-                    {formatDistanceToNow(new Date(item.createdAt), {
-                        addSuffix: true
-                    })}
+                      {formatDistanceToNow(
+                              new Date(item.createdAt),
+                              { addSuffix: true }
+                            )}
                 </Text>
             </View>
         </View>

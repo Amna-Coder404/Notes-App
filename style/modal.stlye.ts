@@ -82,5 +82,28 @@ export const modalStlye = (theme: any) =>
             color: theme.primary,
             fontSize: 16,
             fontWeight: "600",
+        },
+
+        // Create Image Model
+
+        changeBtn: {
+            position: "absolute",
+            bottom: 16,
+            right: 2,
+            width: 150,
+            borderRadius: 6,
+            borderWidth: 1,
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            backgroundColor: "rgba(110, 48, 145, 0.62)",
+            borderColor: "rgba(109, 48, 145, 0.82)"
+        },
+        createImage: {
+            width: "100%",
+            height: 200,
+            borderRadius: 12,
+            marginBottom: 15,
         }
+
+
     })

@@ -6,13 +6,14 @@ import { useTheme } from "@/hooks/useTheme";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 const categoryIcons = {
-    Study: "book",
-    Programming: "code",
-    Personal: "user",
-    Ideas: "lightbulb",
-    Goals: "bullseye",
-    Other: "folder",
-}as any;
+    study: "book",
+    programming: "code",
+    personal: "user",
+    ideas: "lightbulb",
+    goals: "bullseye",
+    images: "images",
+    other: "folder",
+} as any;
 export default function CategoryDetails() {
 
     const router = useRouter();
@@ -69,15 +70,15 @@ export default function CategoryDetails() {
                 {fullCategoryList.map((item) => (
                     <View key={item.name} style={styles.categoryBtn}>
 
-                       <View style={styles.menuLeft}>
-                        <View style={styles.iconCateContainer}>
-                            <FontAwesome6 name={categoryIcons[item.name]|| "folder"} style={styles.icon} />
+                        <View style={styles.menuLeft}>
+                            <View style={styles.iconCateContainer}>
+                                <FontAwesome6 name={categoryIcons[item.name] || "folder"} style={styles.icon} />
+                            </View>
+                            <Text style={styles.categoryText}>
+                                {item.name}
+                            </Text>
                         </View>
-                        <Text style={styles.categoryText}>
-                            {item.name}
-                        </Text>
-                       </View>
-                       
+
                         <Text style={styles.categoryText}>
                             {item.count}
                         </Text>

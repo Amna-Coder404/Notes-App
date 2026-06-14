@@ -29,8 +29,7 @@ const CreateOptionsModal = ({
                 }}
             >
                 {/* BOX */}
-                <View
-                    style={{
+                <View style={{
                         width: "80%",
                         backgroundColor: theme.card,
                         padding: 20,

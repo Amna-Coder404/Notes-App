@@ -34,7 +34,7 @@ export default function EditNoteModal({
     const styles = modalStlye(theme);
     const dropDown = createStyles(theme);
 
-    const { pickImage, image, setImage } = useImageUpload();
+    const { pickImage, image, setImage, uploadImageToConvex } = useImageUpload();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -52,6 +52,31 @@ export default function EditNoteModal({
     }, [note]);
 
     if (!visible || !note) return null;
+    const payload: any = {
+        title,
+        content,
+        categories: category ? [category] : [],
+    };
+
+    if (image) {
+        payload.imageUrl = image;
+    }
+    const handleSaveClick = async () => {
+        const payload: any = {
+            title,
+            content,
+            categories: category ? [category] : [],
+        };
+
+        // upload new image properly
+        if (image) {
+            const storageId = await uploadImageToConvex();
+            payload.imageUrl = storageId;
+        }
+
+        await handleSave(payload);
+        onClose();
+    };
 
     return (
         <Modal
@@ -73,11 +98,11 @@ export default function EditNoteModal({
                     />
 
                     {/* IMAGE SECTION */}
-                    {note.imageUrl && (
+                    {!image && note.imageUrl && (
                         <View style={{ marginVertical: 10 }}>
 
-                            {/* existing image */}
-                            {!image && (
+                            {/* EXISTING IMAGE */}
+                            {!image && note.imageUrl && (
                                 <Image
                                     source={{ uri: note.imageUrl }}
                                     style={{
@@ -88,7 +113,7 @@ export default function EditNoteModal({
                                 />
                             )}
 
-                            {/* new selected image preview */}
+                            {/* NEW IMAGE PREVIEW */}
                             {image && (
                                 <Image
                                     source={{ uri: image }}
@@ -113,14 +138,12 @@ export default function EditNoteModal({
                                     📸 Change Image
                                 </Text>
                             </TouchableOpacity>
+
                         </View>
                     )}
 
                     {/* CATEGORY */}
-                    <TouchableOpacity
-                        style={dropDown.dropdown}
-                        onPress={() => setOpenCategory(!openCategory)}
-                    >
+                    <TouchableOpacity style={dropDown.dropdown} onPress={() => setOpenCategory(!openCategory)}>
                         <Text style={
                             category
                                 ? dropDown.dropdownText
@@ -173,14 +196,7 @@ export default function EditNoteModal({
 
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={async () => {
-                                await handleSave({
-                                    title,
-                                    content,
-                                    categories: category ? [category] : [],
-                                });
-                                onClose();
-                            }}
+                            onPress={handleSaveClick}
                         >
                             <Text style={styles.buttonText}>
                                 Save Change

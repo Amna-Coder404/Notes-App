@@ -6,9 +6,7 @@ export const createHomeStyles = (theme: any) =>
       flex: 1,
 
       backgroundColor: theme.bg,
-      paddingHorizontal: 20,
-      
-      paddingBottom: 29
+      paddingHorizontal: 15,
     },
 
     header: {
@@ -65,7 +63,7 @@ export const createHomeStyles = (theme: any) =>
       borderWidth: 1,
       borderColor: theme.mutedText,
       borderRadius: 10,
-      
+
       color: theme.text,
     },
 
@@ -92,7 +90,7 @@ export const createHomeStyles = (theme: any) =>
       color: theme.text,
     },
 
-  
+
 
     categoryCard: {
       width: 100,
@@ -136,6 +134,7 @@ export const createHomeStyles = (theme: any) =>
     },
 
     noteCard: {
+      justifyContent: "center",
       backgroundColor: theme.card,
       borderRadius: 18,
       padding: 16,
@@ -200,25 +199,58 @@ export const createHomeStyles = (theme: any) =>
       marginBottom: 40
     },
     selectCategory: {
-     backgroundColor: theme.primary ,
-    
+      backgroundColor: theme.primary,
+
     },
     emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 60,
-},
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 60,
+    },
 
-emptyTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#999",
-},
+    emptyTitle: {
+      fontSize: 18,
+      fontWeight: "600",
+      color: "#999",
+    },
 
-emptySubtitle: {
-    fontSize: 14,
-    marginTop: 6,
-    color: "#666",
-},
+    emptySubtitle: {
+      fontSize: 14,
+      marginTop: 6,
+      color: "#666",
+    },
+    noteImage: {
+      width: "100%",
+      height: 160,
+      borderRadius: 12,
+      marginBottom: 10,
+    },
+
+    // Pinned & Fav card
+    importantCard: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      gap: 12,
+
+    },
+
+    importantContent: {
+      flex: 1,        
+      minWidth: 0,  
+    },
+
+    importantNoteText: {
+      color: theme.mutedText,
+      width: "100%"
+    },
+
+    importantImage: {
+      width: 80,
+      height: 80,
+      borderRadius: 10,
+      flexShrink: 0,
+    },
+
+    
   });

@@ -1,6 +1,6 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -11,6 +11,8 @@ import EditNoteModal, { DeleteNote } from "./EditNoteModal";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
 import { RenderNotesCards } from "./RenderNoteCards";
+
+
 
 const NotesCards = () => {
     const { theme } = useTheme();
@@ -56,7 +58,7 @@ const NotesCards = () => {
         return notes.filter((note) => note.isPinned);
     }, [notes, isSearching]);
     if (!notes || !filteredNotes) return <Loader />
-   
+
     const isEmptySearchResult = isSearching && filteredNotes.length === 0;
     const isSearchingResult = !isSearching && filteredPinnedNotes.length > 0;
 
@@ -94,6 +96,7 @@ const NotesCards = () => {
                     keyExtractor={(item) => item._id}
                     renderItem={renderNote}
                     showsVerticalScrollIndicator={false}
+
                     ListHeaderComponent={
                         <>
 
@@ -159,26 +162,35 @@ const NotesCards = () => {
                                     </View>
 
                                     {filteredPinnedNotes.map((note) => (
-                                        <View key={note._id} style={styles.noteCard}>
-                                              {note.imageUrl && (
-                                                              <Image
-                                                                source={{ uri: note.imageUrl }}
-                                                                style={{ width: 100, height: 100, borderRadius: 10 }}
-                                                              />
-                                                            )}
-                                            <View style={styles.noteBetween}>
-                                                <Text style={styles.noteTitle}>
+                                        <View style={[styles.noteCard, styles.importantCard]}>
+
+                                            {/* IMAGE */}
+                                            {note.imageUrl && (
+                                                <Image
+                                                    source={{ uri: note.imageUrl }}
+                                                    style={styles.importantImage}
+                                                />
+                                            )}
+
+                                            {/* CONTENT */}
+                                            <View style={styles.importantContent}>
+
+                                                <Text style={styles.noteTitle} numberOfLines={1}>
                                                     {note.title || "Untitled"}
                                                 </Text>
 
-                                                <TouchableOpacity onPress={() => handleTogglePinned(note._id)}>
-                                                    <AntDesign name="pushpin" size={18} color={note.isPinned ? "#CEC436" : theme.mutedText} />
-                                                </TouchableOpacity>
+                                                <Text style={styles.importantNoteText} numberOfLines={4} ellipsizeMode="tail">
+                                                    {note.content}
+                                                </Text>
+
+
                                             </View>
 
-                                            <Text style={styles.noteDescription}>
-                                                {note.content}
-                                            </Text>
+                                            {/* STAR ICON */}
+                                            <TouchableOpacity onPress={() => handleTogglePinned(note._id)}>
+                                                <AntDesign name="pushpin" size={18} color={note.isPinned ? "#CEC436" : theme.mutedText} />
+                                            </TouchableOpacity>
+
                                         </View>
                                     ))}
                                 </>

@@ -1,7 +1,8 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-/* CREATE NOTE*/
+/*
+   CREATE NOTE */
 export const createNote = mutation({
   args: {
     clerkId: v.string(),
@@ -13,7 +14,6 @@ export const createNote = mutation({
 
     title: v.optional(v.string()),
     content: v.optional(v.string()),
-
     categories: v.array(v.string()),
 
     imageUrl: v.optional(v.id("_storage")),
@@ -24,31 +24,26 @@ export const createNote = mutation({
     await ctx.db.insert("notes", {
       clerkId: args.clerkId,
       type: args.type,
-
       title: args.title,
       content: args.content,
-
       categories: args.categories,
-
       imageUrl: args.imageUrl,
       audioUrl: args.audioUrl,
-
       isFavorite: false,
       isPinned: false,
-
       createdAt: Date.now(),
     });
   },
 });
 
-/* EDIT NOTE*/
+/*
+   EDIT NOTE */
 export const editNotes = mutation({
   args: {
     noteId: v.id("notes"),
 
     title: v.optional(v.string()),
     content: v.optional(v.string()),
-
     categories: v.array(v.string()),
 
     imageUrl: v.optional(v.id("_storage")),
@@ -57,26 +52,30 @@ export const editNotes = mutation({
 
   handler: async (ctx, args) => {
     const note = await ctx.db.get(args.noteId);
-    if (!note) throw new Error("Note not found!");
+    if (!note) throw new Error("Note not found");
+
+    // delete old image if replaced
+    if (args.imageUrl && note.imageUrl && args.imageUrl !== note.imageUrl) {
+      await ctx.storage.delete(note.imageUrl);
+    }
 
     await ctx.db.patch(args.noteId, {
       title: args.title,
       content: args.content,
       categories: args.categories,
-      imageUrl: args.imageUrl,
-      audioUrl: args.audioUrl,
+      imageUrl: args.imageUrl ?? note.imageUrl,
+      audioUrl: args.audioUrl ?? note.audioUrl,
     });
   },
 });
-/* TOGGLE FAVORITE*/
-export const toggleFavorite = mutation({
-  args: {
-    noteId: v.id("notes"),
-  },
 
+/*
+   TOGGLES */
+export const toggleFavorite = mutation({
+  args: { noteId: v.id("notes") },
   handler: async (ctx, args) => {
     const note = await ctx.db.get(args.noteId);
-    if (!note) throw new Error("Note not found!");
+    if (!note) throw new Error("Note not found");
 
     await ctx.db.patch(args.noteId, {
       isFavorite: !note.isFavorite,
@@ -84,15 +83,11 @@ export const toggleFavorite = mutation({
   },
 });
 
-/* TOGGLE PINNED*/
 export const togglePinned = mutation({
-  args: {
-    noteId: v.id("notes"),
-  },
-
+  args: { noteId: v.id("notes") },
   handler: async (ctx, args) => {
     const note = await ctx.db.get(args.noteId);
-    if (!note) throw new Error("Note not found!");
+    if (!note) throw new Error("Note not found");
 
     await ctx.db.patch(args.noteId, {
       isPinned: !note.isPinned,
@@ -100,120 +95,11 @@ export const togglePinned = mutation({
   },
 });
 
-/* GET ALL NOTES*/
+/*
+   GET ALL NOTES
+   (🔥 ALWAYS RETURNS URL) */
 export const getAllNotes = query({
-  args: {
-    clerkId: v.string(),
-  },
-
-  handler: async (ctx, args) => {
-    const notes = await ctx.db
-      .query("notes")
-      .withIndex("by_clerkId", q =>
-        q.eq("clerkId", args.clerkId)
-      )
-      .collect();
-
-    return await Promise.all(
-      notes.map(async note => ({
-        ...note,
-        imageUrl: note.imageUrl
-          ? await ctx.storage.getUrl(note.imageUrl)
-          : undefined,
-
-        audioUrl: note.audioUrl
-          ? await ctx.storage.getUrl(note.audioUrl)
-          : undefined,
-      }))
-    );
-  },
-});
-
-/* GET FAVORITE NOTES*/
-export const getFavoriteNotes = query({
-  args: {
-    clerkId: v.string(),
-  },
-
-  handler: async (ctx, args) => {
-    const notes = await ctx.db
-      .query("notes")
-      .withIndex("by_clerkId", q =>
-        q.eq("clerkId", args.clerkId)
-      )
-      .filter(q => q.eq(q.field("isFavorite"), true))
-      .collect();
-
-    return await Promise.all(
-      notes.map(async note => ({
-        ...note,
-        imageUrl: note.imageUrl
-          ? await ctx.storage.getUrl(note.imageUrl)
-          : undefined,
-        audioUrl: note.audioUrl
-          ? await ctx.storage.getUrl(note.audioUrl)
-          : undefined,
-
-      }))
-    );
-  },
-});
-
-/* GET PINNED NOTES*/
-export const getPinnedNotes = query({
-  args: {
-    clerkId: v.string(),
-  },
-
-  handler: async (ctx, args) => {
-    const notes = await ctx.db
-      .query("notes")
-      .withIndex("by_clerkId", q =>
-        q.eq("clerkId", args.clerkId)
-      )
-      .filter(q => q.eq(q.field("isPinned"), true))
-      .collect();
-
-    return await Promise.all(
-      notes.map(async note => ({
-        ...note,
-        imageUrl: note.imageUrl
-          ? await ctx.storage.getUrl(note.imageUrl)
-          : undefined,
-        audioUrl: note.audioUrl
-          ? await ctx.storage.getUrl(note.audioUrl)
-          : undefined,
-      }))
-    );
-  },
-});
-/* DELETE SINGLE NOTE (SAFE + STORAGE CLEANUP)*/
-export const deleteNote = mutation({
-  args: {
-    noteId: v.id("notes"),
-  },
-
-  handler: async (ctx, args) => {
-    const note = await ctx.db.get(args.noteId);
-    if (!note) return;
-
-    if (note.imageUrl) {
-      await ctx.storage.delete(note.imageUrl);
-    }
-
-    if (note.audioUrl) {
-      await ctx.storage.delete(note.audioUrl);
-    }
-
-    await ctx.db.delete(args.noteId);
-  },
-});
-
-/* DELETE ALL NOTES (OPTIMIZED)*/
-export const deleteAllNotes = mutation({
-  args: {
-    clerkId: v.string(),
-  },
+  args: { clerkId: v.string() },
 
   handler: async (ctx, args) => {
     const notes = await ctx.db
@@ -223,25 +109,109 @@ export const deleteAllNotes = mutation({
       )
       .collect();
 
-    // delete images first
+    return await Promise.all(
+      notes.map(async (note) => ({
+        ...note,
+
+        imageUrl: note.imageUrl
+          ? await ctx.storage.getUrl(note.imageUrl)
+          : null,
+
+        audioUrl: note.audioUrl
+          ? await ctx.storage.getUrl(note.audioUrl)
+          : null,
+      }))
+    );
+  },
+});
+
+/* FAVORITE NOTES */
+export const getFavoriteNotes = query({
+  args: { clerkId: v.string() },
+
+  handler: async (ctx, args) => {
+    const notes = await ctx.db
+      .query("notes")
+      .withIndex("by_clerkId", (q) =>
+        q.eq("clerkId", args.clerkId)
+      )
+      .filter((q) => q.eq(q.field("isFavorite"), true))
+      .collect();
+
+    return await Promise.all(
+      notes.map(async (note) => ({
+        ...note,
+        imageUrl: note.imageUrl
+          ? await ctx.storage.getUrl(note.imageUrl)
+          : null,
+      }))
+    );
+  },
+});
+
+/* PINNED NOTES */
+export const getPinnedNotes = query({
+  args: { clerkId: v.string() },
+
+  handler: async (ctx, args) => {
+    const notes = await ctx.db
+      .query("notes")
+      .withIndex("by_clerkId", (q) =>
+        q.eq("clerkId", args.clerkId)
+      )
+      .filter((q) => q.eq(q.field("isPinned"), true))
+      .collect();
+
+    return await Promise.all(
+      notes.map(async (note) => ({
+        ...note,
+        imageUrl: note.imageUrl
+          ? await ctx.storage.getUrl(note.imageUrl)
+          : null,
+      }))
+    );
+  },
+});
+
+/*DELETE NOTE */
+export const deleteNote = mutation({
+  args: { noteId: v.id("notes") },
+
+  handler: async (ctx, args) => {
+    const note = await ctx.db.get(args.noteId);
+    if (!note) return;
+
+    if (note.imageUrl) await ctx.storage.delete(note.imageUrl);
+    if (note.audioUrl) await ctx.storage.delete(note.audioUrl);
+
+    await ctx.db.delete(args.noteId);
+  },
+});
+
+/* DELETE ALL */
+export const deleteAllNotes = mutation({
+  args: { clerkId: v.string() },
+
+  handler: async (ctx, args) => {
+    const notes = await ctx.db
+      .query("notes")
+      .withIndex("by_clerkId", (q) =>
+        q.eq("clerkId", args.clerkId)
+      )
+      .collect();
+
     await Promise.all(
       notes.map(async (note) => {
-        if (note.imageUrl) {
-          await ctx.storage.delete(note.imageUrl);
-        }
-
+        if (note.imageUrl) await ctx.storage.delete(note.imageUrl);
         await ctx.db.delete(note._id);
       })
     );
 
-    return {
-      success: true,
-      deleted: notes.length,
-    };
+    return { success: true };
   },
 });
 
-/* GENERATE UPLOAD URL*/
+/* UPLOAD URL */
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
 });

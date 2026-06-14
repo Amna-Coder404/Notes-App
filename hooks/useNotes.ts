@@ -8,12 +8,13 @@ import { Id } from "@/convex/_generated/dataModel";
 export const useNotes = () => {
     const { dbUser } = useDbUser();
     const categories = [
-        "Study",
-        "Programming",
-        "Personal",
-        "Ideas",
-        "Goals",
-        "Other"
+        "study",
+        "programming",
+        "personal",
+        "ideas",
+        "goals",
+        "image",
+        "other"
     ];
 
 
@@ -88,7 +89,7 @@ export const useNotes = () => {
         }
 
         if (note.type === "image") {
-            text = `${note.title ?? ""} ${note.caption ?? ""}`;
+             text = `${note.title ?? ""} ${note.content ?? ""}`;
         }
 
         if (note.type === "voice") {
@@ -108,6 +109,7 @@ export const useNotes = () => {
             title: string;
             content: string;
             categories: string[];
+            imageUrl?: Id<"_storage">;
         }
     ) => {
         await updateNotes({
@@ -115,6 +117,7 @@ export const useNotes = () => {
             title: data.title,
             content: data.content,
             categories: data.categories,
+            imageUrl: data.imageUrl ,
         });
     };
     const handleDelete = async ({

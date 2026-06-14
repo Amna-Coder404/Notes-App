@@ -7,7 +7,8 @@ import { createHomeStyles } from '@/style/home.style';
 import { FontAwesome } from '@expo/vector-icons';
 import { useMutation, useQuery } from 'convex/react';
 import { formatDistanceToNow } from "date-fns";
-import React from 'react';
+import { it } from 'node:test';
+import React, { useState } from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,6 +21,8 @@ const Favorites = () => {
     api.notes.getFavoriteNotes,
     dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip"
   )
+
+  
   const toggleFavorite = useMutation(api.notes.toggleFavorite);
 
   const handleToggleStar = async (noteId: any) => {
@@ -36,35 +39,44 @@ const Favorites = () => {
   if (staredNotes === undefined) return <Loader />
 
   const renderFavoriteNote = ({ item: note }: any) => (
-    <View style={styles.noteCard}>
+    <View style={[styles.noteCard, styles.importantCard]}>
+
+      {/* IMAGE */}
       {note.imageUrl && (
         <Image
           source={{ uri: note.imageUrl }}
-          style={{ width: 100, height: 100, borderRadius: 10 }}
+          style={styles.importantImage}
         />
       )}
 
-      <View style={styles.noteBetween}>
-        <Text style={styles.noteTitle}>{note.title || "Untitled"}</Text>
-        <TouchableOpacity onPress={() => handleToggleStar(note._id)}>
-          <FontAwesome
-            name={note.isFavorite ? "star" : "star-o"}
-            size={18}
-            color={note.isFavorite ? "#CEC436" : theme.mutedText}
-          />
-        </TouchableOpacity>
+      {/* CONTENT */}
+      <View style={styles.importantContent}>
+
+        <Text style={styles.noteTitle} numberOfLines={1}>
+          {note.title || "Untitled"}
+        </Text>
+
+        <Text style={styles.importantNoteText} >
+          {note.content}
+        </Text>
+
+       
+        <Text style={styles.noteDate}>
+          {formatDistanceToNow(new Date(note.createdAt), { addSuffix: true })}
+        </Text>
+
       </View>
 
-      <Text style={styles.noteDescription}>
-        {note.content || note.caption}
-      </Text>
+      {/* STAR ICON */}
 
-      <Text style={styles.noteDate}>
-        {formatDistanceToNow(
-          new Date(note.createdAt),
-          { addSuffix: true }
-        )}
-      </Text>
+      <TouchableOpacity onPress={() => handleToggleStar(note._id)}>
+        <FontAwesome
+          name={note.isFavorite ? "star" : "star-o"}
+          size={18}
+          color={note.isFavorite ? "#CEC436" : theme.mutedText}
+        />
+      </TouchableOpacity>
+
     </View>
   );
 
