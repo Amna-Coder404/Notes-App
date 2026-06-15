@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as NavigationBar from "expo-navigation-bar";
-import { useTheme } from "@/hooks/useTheme";
+
 
 SplashScreen.preventAutoHideAsync();
 

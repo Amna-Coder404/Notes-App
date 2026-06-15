@@ -1,21 +1,22 @@
 import { api } from "@/convex/_generated/api";
-import { useDbUser } from "./useDbUser"
+import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { useMemo, useState } from "react";
-import { Id } from "@/convex/_generated/dataModel";
+import { useDbUser } from "./useDbUser";
 
+
+const categories = [
+    "study",
+    "programming",
+    "personal",
+    "ideas",
+    "goals",
+    "image",
+    "other"
+];
 
 export const useNotes = () => {
     const { dbUser } = useDbUser();
-    const categories = [
-        "study",
-        "programming",
-        "personal",
-        "ideas",
-        "goals",
-        "image",
-        "other"
-    ];
 
 
     //   QUERIES
@@ -71,37 +72,37 @@ export const useNotes = () => {
     const [searchText, setSearchText] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
 
-   const filteredNotes = useMemo(() => {
-    if (!notes) return [];
+    const filteredNotes = useMemo(() => {
+        if (!notes) return [];
 
-    const q = searchText.trim().toLowerCase();
+        const q = searchText.trim().toLowerCase();
 
-    return notes.filter((note) => {
-        const matchCategory =
-            selectedCategory === "All" ||
-            note.categories.includes(selectedCategory);
+        return notes.filter((note) => {
+            const matchCategory =
+                selectedCategory === "All" ||
+                note.categories.includes(selectedCategory);
 
-        let text = "";
+            let text = "";
 
-        // TYPE-BASED SEARCH (IMPORTANT)
-        if (note.type === "text") {
-            text = `${note.title ?? ""} ${note.content ?? ""}`;
-        }
+            // TYPE-BASED SEARCH (IMPORTANT)
+            if (note.type === "text") {
+                text = `${note.title ?? ""} ${note.content ?? ""}`;
+            }
 
-        if (note.type === "image") {
-             text = `${note.title ?? ""} ${note.content ?? ""}`;
-        }
+            if (note.type === "image") {
+                text = `${note.title ?? ""} ${note.content ?? ""}`;
+            }
 
-        if (note.type === "voice") {
-            text = `${note.title ?? ""}`;
-        }
+            if (note.type === "voice") {
+                text = `${note.title ?? ""}`;
+            }
 
-        const matchSearch =
-            q === "" || text.toLowerCase().includes(q);
+            const matchSearch =
+                q === "" || text.toLowerCase().includes(q);
 
-        return matchCategory && matchSearch;
-    });
-}, [notes, searchText, selectedCategory]);
+            return matchCategory && matchSearch;
+        });
+    }, [notes, searchText, selectedCategory]);
     // Actions
     const handleEditSave = async (
         noteId: Id<"notes">,
@@ -117,7 +118,7 @@ export const useNotes = () => {
             title: data.title,
             content: data.content,
             categories: data.categories,
-            imageUrl: data.imageUrl ,
+            imageUrl: data.imageUrl,
         });
     };
     const handleDelete = async ({

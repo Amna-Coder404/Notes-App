@@ -9,9 +9,6 @@ import { useMutation } from 'convex/react';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { useImageUpload } from "@/hooks/useImageUpload";
-import { Image } from "react-native";
-
 
 const CreateTextNotes = ({ visible, onClose }: any) => {
     const { theme } = useTheme();

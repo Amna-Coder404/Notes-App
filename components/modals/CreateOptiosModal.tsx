@@ -3,20 +3,11 @@ import { Modal, View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/hooks/useTheme";
 
-const CreateOptionsModal = ({
-    visible,
-    onClose,
-    onSelect,
-}: any) => {
+const CreateOptionsModal = ({  visible,  onClose,  onSelect,}: any) => {
     const { theme } = useTheme();
 
     return (
-        <Modal
-            visible={visible}
-            animationType="fade"
-            transparent
-            onRequestClose={onClose}
-        >
+        <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
             {/* BACKDROP */}
             <TouchableOpacity
                 activeOpacity={1}

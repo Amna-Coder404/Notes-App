@@ -1,18 +1,28 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
 import { formatDistanceToNow } from "date-fns";
-import { Image } from "react-native";
+import { useRouter } from "expo-router";
+
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSelectedNote }: any) => {
-    
+
     const { theme } = useTheme();
     const styles = createHomeStyles(theme);
-  
-    return (
+    const router = useRouter();
 
-        <View style={styles.noteCard}>
+
+    return (
+        <TouchableOpacity
+            style={styles.noteCard}
+            onPress={() =>
+                router.push({
+                    pathname: "/notes/[id]",
+                    params: { id: String(item._id) },
+                })
+            }
+        >
             {item.imageUrl && (
                 <Image
                     source={{ uri: item.imageUrl }}
@@ -22,7 +32,7 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
             )}
 
             <View style={styles.noteBetween}>
-                <Text style={styles.noteTitle}>
+                <Text style={[styles.noteTitle, { width: 200 }]} numberOfLines={1} >
                     {item.title || "Untitled"}
                 </Text>
 
@@ -43,7 +53,7 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
                 </View>
             </View>
 
-            <Text style={styles.noteDescription}>{item.content}</Text>
+            <Text style={styles.noteDescription} numberOfLines={2} ellipsizeMode="tail">{item.content}</Text>
 
             <View style={styles.noteBetween}>
                 <Text style={styles.noteCategory}>
@@ -51,12 +61,12 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
                 </Text>
 
                 <Text style={styles.noteDate}>
-                      {formatDistanceToNow(
-                              new Date(item.createdAt),
-                              { addSuffix: true }
-                            )}
+                    {formatDistanceToNow(
+                        new Date(item.createdAt),
+                        { addSuffix: true }
+                    )}
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }

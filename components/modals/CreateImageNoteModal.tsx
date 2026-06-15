@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { useMutation } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
@@ -81,10 +81,7 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
 
     return (
         <Modal visible={visible} animationType="slide" onRequestClose={handleClose}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={modalStyles.modalContainer}
-            >
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={modalStyles.modalContainer}>
                 {/* HEADER */}
                 <View style={modalStyles.modalHeader}>
                     <TouchableOpacity onPress={handleClose}>
@@ -93,11 +90,11 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
 
                     <Text style={modalStyles.modalTitle}>Image Note</Text>
 
-                    <TouchableOpacity onPress={handleCreate} disabled={loading}>
+                    {image ? <TouchableOpacity onPress={handleCreate} disabled={loading}>
                         <Text style={modalStyles.savebtnText}>
                             {loading ? "Saving..." : "Save"}
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> : <View style={{ width: 100 }} />}
                 </View>
                 <ScrollView>
 
@@ -106,33 +103,18 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                         {/* IF NO IMAGE → SHOW CHOICES */}
                         {!image && (
                             <View style={{ alignItems: "center", marginTop: 30 }}>
-                                <Text style={{ color: theme.text, marginBottom: 20 }}>
+                                <Text style={modalStyles.imageAddTitle}>
                                     Add an image
                                 </Text>
 
-                                <TouchableOpacity
-                                    onPress={takePhoto}
-                                    style={{
-                                        padding: 12,
-                                        borderRadius: 10,
-                                        backgroundColor: theme.card,
-                                        marginBottom: 10,
-                                        width: "80%",
-                                    }}
-                                >
-                                    <Text style={{ color: theme.text }}>📸 Take Photo</Text>
+                                <TouchableOpacity onPress={takePhoto} style={modalStyles.takeOrPick}>
+                                    <AntDesign name="camera" style={modalStyles.icon} />
+                                    <Text style={{ color: theme.text }}>Take Photo</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity
-                                    onPress={pickImage}
-                                    style={{
-                                        padding: 12,
-                                        borderRadius: 10,
-                                        backgroundColor: theme.card,
-                                        width: "80%",
-                                    }}
-                                >
-                                    <Text style={modalStyles.buttonText}>🖼 Pick from Gallery</Text>
+                                <TouchableOpacity onPress={pickImage} style={modalStyles.takeOrPick}>
+                                    <Entypo name="images" style={modalStyles.icon} />
+                                    <Text style={modalStyles.buttonText}> Pick from Gallery</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -143,28 +125,28 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                                 <View>
                                     <Image source={{ uri: image }} style={modalStyles.createImage} />
                                     <TouchableOpacity onPress={pickImage} style={modalStyles.changeBtn}>
+
                                         <Text style={modalStyles.buttonText}>Change Image</Text>
                                     </TouchableOpacity>
                                 </View>
 
-
-                                <Text style={styles.label}>Title</Text>
+                                {/* Title Input */}
                                 <TextInput
                                     value={title}
                                     onChangeText={setTitle}
-                                    placeholder="Add title"
+                                    placeholder="Title..."
                                     placeholderTextColor={theme.mutedText}
-                                    style={styles.input}
+                                    style={modalStyles.imageTitleInput}
                                 />
 
-                                <Text style={styles.label}>Content</Text>
+                                {/* Content Input */}
                                 <TextInput
                                     value={content}
                                     onChangeText={setContent}
-                                    placeholder="Write Content..."
+                                    placeholder="Write your thoughts..."
                                     placeholderTextColor={theme.mutedText}
                                     multiline
-                                    style={[styles.input, { height: 100 }]}
+                                    style={modalStyles.imageContentInput}
                                 />
                             </>
                         )}

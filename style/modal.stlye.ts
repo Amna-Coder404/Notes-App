@@ -1,4 +1,4 @@
-import { text } from "node:stream/consumers";
+
 import { Platform, StyleSheet } from "react-native";
 
 export const modalStlye = (theme: any) =>
@@ -85,6 +85,21 @@ export const modalStlye = (theme: any) =>
         },
 
         // Create Image Model
+        imageAddTitle: {
+            fontSize: 30,
+            color: theme.text,
+            marginBottom: 12
+        },
+        takeOrPick: {
+            flexDirection: "row",
+            gap: 12,
+
+            padding: 12,
+            borderRadius: 10,
+            backgroundColor: theme.card,
+            marginBottom: 10,
+            width: "80%",
+        },
 
         changeBtn: {
             position: "absolute",
@@ -95,15 +110,38 @@ export const modalStlye = (theme: any) =>
             borderWidth: 1,
             paddingVertical: 10,
             paddingHorizontal: 15,
-            backgroundColor: "rgba(110, 48, 145, 0.62)",
-            borderColor: "rgba(109, 48, 145, 0.82)"
+            backgroundColor: "rgba(40, 29, 46, 0.62)",
+            borderColor: "rgba(57, 44, 65, 0.82)"
         },
         createImage: {
             width: "100%",
             height: 200,
             borderRadius: 12,
             marginBottom: 15,
+        },
+
+        imageTitleInput: {
+            fontSize: 24,
+            fontWeight: "700",
+            color: theme.text,
+            marginTop: 20,
+        },
+        imageContentInput: {
+            color: theme.text,
+            fontSize: 16,
+            marginTop: 15,
+            lineHeight: 24,
+            minHeight: 150,
+            textAlignVertical: "top",
+        },
+        icon: {
+            color: theme.text,
+            fontSize: 20
+        },
+        againPickPhoto: {
+            padding: 12,
+            borderRadius: 10,
+            backgroundColor: theme.card,
+            marginTop: 10,
         }
-
-
     })

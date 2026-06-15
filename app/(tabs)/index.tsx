@@ -1,9 +1,10 @@
 
-import CreateImageNoteModal from '@/components/CreateImageNoteModal'
-import CreateOptionsModal from '@/components/CreateOptiosModal'
-import CreateTextNotes from '@/components/CreateTextNotesModal'
-import FullImageModal from '@/components/FullImageMode'
-import NotesCards from '@/components/NotesCards'
+import CreateImageNoteModal from '@/components/modals/CreateImageNoteModal'
+import CreateOptionsModal from '@/components/modals/CreateOptiosModal'
+import CreateTextNotes from '@/components/modals/CreateTextNotesModal'
+import FullImageModal from '@/components/notes/FullImageMode'
+
+import NotesCards from '@/components/notes/NotesCards'
 import { useDbUser } from '@/hooks/useDbUser'
 
 import { useTheme } from '@/hooks/useTheme'
@@ -80,7 +81,7 @@ const Home = () => {
       <CreateTextNotes visible={showTextModal} onClose={() => setShowTextModal(false)}/>
         <CreateImageNoteModal visible={showImageModal} onClose={() => setShowImageModal(false)} />
       {/* Full image Modal */}
-      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v) => setShowProfileImage(v)} />
+      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v:any) => setShowProfileImage(v)} />
 
     </SafeAreaView>
 

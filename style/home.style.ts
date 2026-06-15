@@ -154,6 +154,7 @@ export const createHomeStyles = (theme: any) =>
       fontSize: 16,
       fontWeight: "700",
       color: theme.text,
+     
     },
 
     noteDate: {
@@ -236,8 +237,8 @@ export const createHomeStyles = (theme: any) =>
     },
 
     importantContent: {
-      flex: 1,        
-      minWidth: 0,  
+      flex: 1,
+      minWidth: 0,
     },
 
     importantNoteText: {
@@ -251,6 +252,6 @@ export const createHomeStyles = (theme: any) =>
       borderRadius: 10,
       flexShrink: 0,
     },
+ 
 
-    
   });

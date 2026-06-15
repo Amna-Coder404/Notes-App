@@ -1,17 +1,17 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import ThemeToggle from '@/components/ThemeToggle'
+import Loader from '@/components/ui/Loader'
+import ThemeToggle from '@/components/ui/ThemeToggle'
+import { useDbUser } from '@/hooks/useDbUser'
 import { useTheme } from '@/hooks/useTheme'
 import { profileScreenStyles } from '@/style/profile.stlye'
-import { useDbUser } from '@/hooks/useDbUser'
-import Loader from '@/components/Loader'
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { Alert } from 'react-native';
 import { useAuth } from '@clerk/clerk-expo'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import React, { useState } from 'react'
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native'
 
-import { useRouter } from "expo-router";
+
 import { useNotes } from '@/hooks/useNotes'
-import FullImageModal from '@/components/FullImageMode'
+import { useRouter } from "expo-router"
+import FullImageModal from '@/components/notes/FullImageMode'
 
 
 const Profile = () => {

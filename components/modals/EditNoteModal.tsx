@@ -6,7 +6,6 @@ import { modalStlye } from '@/style/modal.stlye';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { Image, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Loader from './Loader';
 
 
 
@@ -49,7 +48,7 @@ export default function EditNoteModal({
             setCategory(note.categories?.[0] || "");
             setImage(null); // reset new image selection
         }
-    }, [note]);
+    }, [note, setImage]);
 
     if (!visible || !note) return null;
     const payload: any = {
@@ -79,12 +78,7 @@ export default function EditNoteModal({
     };
 
     return (
-        <Modal
-            visible={visible}
-            transparent
-            animationType="slide"
-            onRequestClose={onClose}
-        >
+        <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
             <View style={styles.centerModalOverlay}>
                 <View style={styles.centerModalBox}>
 
@@ -97,51 +91,28 @@ export default function EditNoteModal({
                         style={styles.input}
                     />
 
-                    {/* IMAGE SECTION */}
-                    {!image && note.imageUrl && (
+
+                    {(note.imageUrl || image) && (
                         <View style={{ marginVertical: 10 }}>
-
-                            {/* EXISTING IMAGE */}
-                            {!image && note.imageUrl && (
-                                <Image
-                                    source={{ uri: note.imageUrl }}
-                                    style={{
-                                        width: "100%",
-                                        height: 160,
-                                        borderRadius: 12,
-                                    }}
-                                />
-                            )}
-
-                            {/* NEW IMAGE PREVIEW */}
-                            {image && (
-                                <Image
-                                    source={{ uri: image }}
-                                    style={{
-                                        width: "100%",
-                                        height: 160,
-                                        borderRadius: 12,
-                                    }}
-                                />
-                            )}
+                            <Image source={{ uri: image || note.imageUrl, }}
+                                style={{
+                                    width: "100%",
+                                    height: 160,
+                                    borderRadius: 12,
+                                }}
+                                resizeMode="cover"
+                            />
 
                             <TouchableOpacity
                                 onPress={pickImage}
-                                style={{
-                                    padding: 12,
-                                    borderRadius: 10,
-                                    backgroundColor: theme.card,
-                                    marginTop: 10,
-                                }}
-                            >
+
+                                style={styles.againPickPhoto}>
                                 <Text style={{ color: theme.text }}>
-                                    📸 Change Image
+                                    {image ? " Pick Another Image" : " Change Image"}
                                 </Text>
                             </TouchableOpacity>
-
                         </View>
                     )}
-
                     {/* CATEGORY */}
                     <TouchableOpacity style={dropDown.dropdown} onPress={() => setOpenCategory(!openCategory)}>
                         <Text style={
@@ -160,7 +131,7 @@ export default function EditNoteModal({
                     </TouchableOpacity>
 
                     {openCategory && (
-                        <View style={dropDown.dropdownList}>
+                        <View style={[dropDown.dropdownList , dropDown.dropDownListInEdit]}>
                             {categories.map((item) => (
                                 <TouchableOpacity
                                     key={item}
@@ -194,9 +165,7 @@ export default function EditNoteModal({
                             <Text style={styles.buttonText}>Cancel</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleSaveClick}
+                        <TouchableOpacity style={styles.button}   onPress={handleSaveClick}
                         >
                             <Text style={styles.buttonText}>
                                 Save Change

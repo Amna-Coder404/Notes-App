@@ -9,10 +9,10 @@ const Initiallayout = () => {
 
     useEffect(() => {
         if (!isLoaded) return;
-        const inAuthScreen = segments[0] == "(auth)";
+        const inAuthScreen = segments[0] === "(auth)";
         if (!isSignedIn && !inAuthScreen) router.replace("/(auth)/login");
         else if (isSignedIn && inAuthScreen) router.replace("/(tabs)")
-    }, [isLoaded, isSignedIn, segments])
+    }, [isLoaded, isSignedIn, segments, router])
     if (!isLoaded) return null;
 
 

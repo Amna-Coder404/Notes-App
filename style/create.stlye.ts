@@ -88,8 +88,20 @@ export const createStyles = (theme: any) =>
       borderColor: theme.border,
       marginBottom: 15,
       overflow: "hidden",
-      maxHeight: 300
+      maxHeight: 300,
 
+     
+    },
+
+    dropDownListInEdit :{
+       position: "absolute",
+      top: 360, // adjust based on dropdown height
+      left: 0,
+      right: 0,
+
+      zIndex: 9999,
+      elevation: 10, // Android fix
+      margin:12
     },
 
     dropdownItem: {
@@ -111,7 +123,7 @@ export const createStyles = (theme: any) =>
     },
 
     buttonText: {
-      color  : theme.bright,
+      color: theme.bright,
       fontSize: 16,
       fontWeight: "600",
     },
@@ -125,5 +137,5 @@ export const createStyles = (theme: any) =>
       paddingHorizontal: 16,
       paddingVertical: 26,
     },
-  
+
   });

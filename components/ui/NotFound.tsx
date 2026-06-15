@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react'
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useTheme } from '@/hooks/useTheme'
+import { useTheme } from '@/hooks/useTheme';
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function NotFound({ text, icon }: any) {

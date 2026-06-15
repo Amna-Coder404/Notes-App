@@ -1,7 +1,6 @@
 
-import { Id } from "./_generated/dataModel";
-import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server"
-import { v } from "convex/values"
+import { v } from "convex/values";
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 
 
 // This will check current user (here or not)

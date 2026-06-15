@@ -1,5 +1,5 @@
-import Loader from '@/components/Loader';
-import NotFound from '@/components/NotFound';
+import Loader from '@/components/ui/Loader';
+import NotFound from '@/components/ui/NotFound';
 import { api } from '@/convex/_generated/api';
 import { useDbUser } from '@/hooks/useDbUser';
 import { useTheme } from '@/hooks/useTheme';
@@ -7,8 +7,8 @@ import { createHomeStyles } from '@/style/home.style';
 import { FontAwesome } from '@expo/vector-icons';
 import { useMutation, useQuery } from 'convex/react';
 import { formatDistanceToNow } from "date-fns";
-import { it } from 'node:test';
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,8 +21,8 @@ const Favorites = () => {
     api.notes.getFavoriteNotes,
     dbUser?.clerkId ? { clerkId: dbUser.clerkId } : "skip"
   )
+  const router = useRouter();
 
-  
   const toggleFavorite = useMutation(api.notes.toggleFavorite);
 
   const handleToggleStar = async (noteId: any) => {
@@ -39,7 +39,12 @@ const Favorites = () => {
   if (staredNotes === undefined) return <Loader />
 
   const renderFavoriteNote = ({ item: note }: any) => (
-    <View style={[styles.noteCard, styles.importantCard]}>
+    <TouchableOpacity style={[styles.noteCard, styles.importantCard]} onPress={() =>
+      router.push({
+        pathname: "/notes/[id]",
+        params: { id: String(note._id) },
+      })
+    }>
 
       {/* IMAGE */}
       {note.imageUrl && (
@@ -60,7 +65,7 @@ const Favorites = () => {
           {note.content}
         </Text>
 
-       
+
         <Text style={styles.noteDate}>
           {formatDistanceToNow(new Date(note.createdAt), { addSuffix: true })}
         </Text>
@@ -77,7 +82,7 @@ const Favorites = () => {
         />
       </TouchableOpacity>
 
-    </View>
+    </TouchableOpacity>
   );
 
   return (

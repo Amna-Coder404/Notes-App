@@ -1,23 +1,24 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { useNotes } from "@/hooks/useNotes";
-import EditBtn from "./EditBtn";
-import EditNoteModal, { DeleteNote } from "./EditNoteModal";
-import Loader from "./Loader";
-import NotFound from "./NotFound";
-import { RenderNotesCards } from "./RenderNoteCards";
+import EditNoteModal, { DeleteNote } from "../modals/EditNoteModal";
+import { RenderNotesCards } from "../notes/RenderNoteCards";
+import EditBtn from "../ui/EditBtn";
+import Loader from "../ui/Loader";
+import NotFound from "../ui/NotFound";
+import { useRouter } from "expo-router";
 
 
 
 const NotesCards = () => {
     const { theme } = useTheme();
     const styles = createHomeStyles(theme);
-
+    const router = useRouter();
     const {
         notes,
         categoryStats,
@@ -49,7 +50,7 @@ const NotesCards = () => {
         if (!exists) {
             setSelectedNote(null);
         }
-    }, [notes]);
+    }, [notes, selectedNote]);
 
     // hide pinned during search
     const filteredPinnedNotes = useMemo(() => {
@@ -162,7 +163,12 @@ const NotesCards = () => {
                                     </View>
 
                                     {filteredPinnedNotes.map((note) => (
-                                        <View style={[styles.noteCard, styles.importantCard]}>
+                                        <TouchableOpacity style={[styles.noteCard, styles.importantCard]} key={note._id} onPress={() =>
+                                            router.push({
+                                                pathname: "/notes/[id]",
+                                                params: { id: String(note._id) },
+                                            })
+                                        }>
 
                                             {/* IMAGE */}
                                             {note.imageUrl && (
@@ -191,7 +197,7 @@ const NotesCards = () => {
                                                 <AntDesign name="pushpin" size={18} color={note.isPinned ? "#CEC436" : theme.mutedText} />
                                             </TouchableOpacity>
 
-                                        </View>
+                                        </TouchableOpacity>
                                     ))}
                                 </>
                             )}
@@ -200,7 +206,7 @@ const NotesCards = () => {
                             <View>
                                 <View style={styles.sectionHeader}>
                                     <Text style={styles.sectionTitle}>
-                                        {isSearching ? "Results" : " All Notes"}
+                                        {isSearching ? "Results" : "  Notes"}
                                     </Text>
                                 </View>
                                 {isEmptySearchResult && (

@@ -1,8 +1,8 @@
+import { useTheme } from "@/hooks/useTheme";
 import { MaterialIcons } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { useTheme } from "@/hooks/useTheme";
 
 const TabsLayout = () => {
   const { theme } = useTheme();

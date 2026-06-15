@@ -69,6 +69,29 @@ export const editNotes = mutation({
   },
 });
 
+// Get not by clerk ID 
+export const getNoteById = query({
+  args: {
+    noteId: v.id("notes"),
+  },
+
+  handler: async (ctx, args) => {
+    const note = await ctx.db.get(args.noteId);
+
+    if (!note) return null;
+
+    return {
+      ...note,
+      imageUrl: note.imageUrl
+        ? await ctx.storage.getUrl(note.imageUrl)
+        : null,
+
+      audioUrl: note.audioUrl
+        ? await ctx.storage.getUrl(note.audioUrl)
+        : null,
+    };
+  },
+});
 /*
    TOGGLES */
 export const toggleFavorite = mutation({

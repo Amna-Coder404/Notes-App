@@ -44,7 +44,7 @@ export const useImageUpload = () => {
 
     const uploadUrl = await generateUploadUrl();
 
-    // ⚡ FIX: safer conversion using fetch blob
+    // ⚡FIX: safer conversion using fetch blob
     const response = await fetch(image);
     const blob = await response.blob();
 

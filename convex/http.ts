@@ -56,7 +56,7 @@ http.route({
             const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
             const email = email_addresses[0].email_address;
-            const name = `${first_name || ""} ${last_name || ""}`.trim();
+          
 
             try {
                 await ctx.runMutation(api.user.createUser, {
