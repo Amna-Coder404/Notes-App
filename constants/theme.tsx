@@ -12,6 +12,8 @@ export const lightTheme = {
   primary: "#7C4DFF",
   secondary: "#F7F8FA",
   danger: "#FF4D4F",
+  voice : "#6500c4",
+  icon : "black"
 };
 
 export const darkTheme = {
@@ -28,4 +30,6 @@ export const darkTheme = {
   primary: "#7C4DFF",
   secondary: "#0B1220",
   danger: "#FF4D4F",
+  voice : "#4f0099",
+  icon : "white"
 };

@@ -3,9 +3,8 @@ import { useNotes } from '@/hooks/useNotes';
 import { useTheme } from '@/hooks/useTheme';
 import { createStyles } from '@/style/create.stlye';
 import { modalStlye } from '@/style/modal.stlye';
-import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 
@@ -79,8 +78,8 @@ export default function EditNoteModal({
 
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-            <View style={styles.centerModalOverlay}>
-                <View style={styles.centerModalBox}>
+            <KeyboardAvoidingView style={styles.centerModalOverlay} >
+                <ScrollView style={styles.centerModalBox}>
 
                     {/* TITLE */}
                     <TextInput
@@ -114,7 +113,7 @@ export default function EditNoteModal({
                         </View>
                     )}
                     {/* CATEGORY */}
-                    <TouchableOpacity style={dropDown.dropdown} onPress={() => setOpenCategory(!openCategory)}>
+                    {/* <TouchableOpacity style={dropDown.dropdown} onPress={() => setOpenCategory(!openCategory)}>
                         <Text style={
                             category
                                 ? dropDown.dropdownText
@@ -128,10 +127,14 @@ export default function EditNoteModal({
                             size={20}
                             color="#666"
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     {openCategory && (
-                        <View style={[dropDown.dropdownList , dropDown.dropDownListInEdit]}>
+                        <ScrollView style={[
+                            dropDown.dropdownList,
+                            dropDown.dropDownListInEdit,
+                            note.type === "voice" && { top: 120 }
+                        ]}>
                             {categories.map((item) => (
                                 <TouchableOpacity
                                     key={item}
@@ -146,18 +149,22 @@ export default function EditNoteModal({
                                     </Text>
                                 </TouchableOpacity>
                             ))}
-                        </View>
+                        </ScrollView>
                     )}
 
                     {/* CONTENT */}
-                    <TextInput
-                        placeholder="Write your note..."
-                        placeholderTextColor={theme.mutedText}
-                        value={content}
-                        onChangeText={setContent}
-                        multiline
-                        style={[styles.input, dropDown.textArea]}
-                    />
+                    {
+                        note.type === "voice" ? (null) : (
+                            <TextInput
+                                placeholder="Write your note..."
+                                placeholderTextColor={theme.mutedText}
+                                value={content}
+                                onChangeText={setContent}
+                                multiline
+                                style={[styles.input, dropDown.textArea]}
+                            />
+                        )
+                    }
 
                     {/* BUTTONS */}
                     <View style={styles.buttonContainer}>
@@ -165,7 +172,7 @@ export default function EditNoteModal({
                             <Text style={styles.buttonText}>Cancel</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.button}   onPress={handleSaveClick}
+                        <TouchableOpacity style={styles.button} onPress={handleSaveClick}
                         >
                             <Text style={styles.buttonText}>
                                 Save Change
@@ -173,8 +180,9 @@ export default function EditNoteModal({
                         </TouchableOpacity>
                     </View>
 
-                </View>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+           
         </Modal>
     );
 }

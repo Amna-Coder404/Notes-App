@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import VoiceNoteCard from "./VoiceNoteCard";
 
 export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSelectedNote }: any) => {
 
@@ -12,8 +13,8 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
     const styles = createHomeStyles(theme);
     const router = useRouter();
 
-
     return (
+
         <TouchableOpacity
             style={styles.noteCard}
             onPress={() =>
@@ -53,7 +54,19 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
                 </View>
             </View>
 
-            <Text style={styles.noteDescription} numberOfLines={2} ellipsizeMode="tail">{item.content}</Text>
+        
+                {item.type === "voice" ? (
+                    <VoiceNoteCard audioUrl={item.audioUrl} />
+                ) : (
+                    <Text
+                        style={styles.noteDescription}
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                    >
+                        {item.content}
+                    </Text>
+                )}
+            {/* </Text> */}
 
             <View style={styles.noteBetween}>
                 <Text style={styles.noteCategory}>

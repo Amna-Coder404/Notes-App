@@ -12,6 +12,7 @@ const categories = [
     "ideas",
     "goals",
     "image",
+    "voice",
     "other"
 ];
 

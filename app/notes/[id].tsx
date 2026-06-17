@@ -1,4 +1,5 @@
 import FullImageModal from "@/components/notes/FullImageMode";
+import VoiceNoteCard from "@/components/notes/VoiceNoteCard";
 import Loader from "@/components/ui/Loader";
 import { api } from "@/convex/_generated/api";
 import { useTheme } from "@/hooks/useTheme";
@@ -9,6 +10,8 @@ import { formatDistanceToNow } from "date-fns";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+
+
 
 export default function NotePreview() {
   const { id } = useLocalSearchParams();
@@ -53,16 +56,21 @@ export default function NotePreview() {
       <View style={styles.categoryRow}>
         {note.categories?.map((cat: string, index: number) => (
           <View key={index} style={styles.categoryChip} >
-            <Text style={{ color: theme.text, fontSize: 12 }}>{cat}</Text>
+            <Text style={styles.text}>{cat}</Text>
           </View>
         ))}
       </View>
 
       {/* CONTENT */}
-      <Text style={styles.content}>
-        {note.content}
-      </Text>
+      {note.type === "voice" ? (
+        <VoiceNoteCard audioUrl={note.audioUrl} />
 
+      ) : (
+        <Text style={styles.content}>
+          {note.content}
+        </Text>
+
+      )}
       {/* DATE */}
       <Text style={styles.time}>
         {formatDistanceToNow(new Date(note.createdAt), { addSuffix: true })}

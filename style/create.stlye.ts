@@ -86,16 +86,16 @@ export const createStyles = (theme: any) =>
       borderRadius: 12,
       borderWidth: 1,
       borderColor: theme.border,
-      marginBottom: 15,
+      marginBottom: 25,
       overflow: "hidden",
-      maxHeight: 300,
-
+      maxHeight: 350,
+      
      
     },
 
     dropDownListInEdit :{
        position: "absolute",
-      top: 360, // adjust based on dropdown height
+      top: 350, // adjust based on dropdown height
       left: 0,
       right: 0,
 
@@ -137,5 +137,9 @@ export const createStyles = (theme: any) =>
       paddingHorizontal: 16,
       paddingVertical: 26,
     },
+
+
+
+    
 
   });

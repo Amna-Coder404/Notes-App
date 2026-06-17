@@ -2,6 +2,7 @@
 import CreateImageNoteModal from '@/components/modals/CreateImageNoteModal'
 import CreateOptionsModal from '@/components/modals/CreateOptiosModal'
 import CreateTextNotes from '@/components/modals/CreateTextNotesModal'
+import CreateVoiceNoteModal from '@/components/modals/CreateVoiceNoteModal'
 import FullImageModal from '@/components/notes/FullImageMode'
 
 import NotesCards from '@/components/notes/NotesCards'
@@ -26,6 +27,7 @@ const Home = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [showTextModal, setShowTextModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
 
 
   return (
@@ -38,7 +40,7 @@ const Home = () => {
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Hello, {dbUser?.firstname} 👋</Text>
-          <Text style={styles.subtitle}>Here are your notes</Text>
+          <Text style={styles.subtitle}>Everything organized in one place</Text>
         </View>
 
 
@@ -55,8 +57,7 @@ const Home = () => {
       </View>
 
       <NotesCards />
-      {/* <CreateTextNotes visible={showAddNoteModal} onClose={() => setShowAddNoteModal(false)} />
-       */}
+    
 
       <CreateOptionsModal
         visible={showOptions}
@@ -67,9 +68,7 @@ const Home = () => {
 
           if (type === "text") setShowTextModal(true);
           if (type === "image") setShowImageModal(true);
-          if (type === "voice") {
-            console.log("voice modal later");
-          }
+          if (type === "voice") { setShowVoiceModal(true) }
         }}
       />
 
@@ -77,11 +76,13 @@ const Home = () => {
 
 
 
-      {/* Create Image modal  */}
-      <CreateTextNotes visible={showTextModal} onClose={() => setShowTextModal(false)}/>
-        <CreateImageNoteModal visible={showImageModal} onClose={() => setShowImageModal(false)} />
+      {/* Create Notes modal s */}
+      <CreateTextNotes visible={showTextModal} onClose={() => setShowTextModal(false)} />
+      <CreateImageNoteModal visible={showImageModal} onClose={() => setShowImageModal(false)} />
+      <CreateVoiceNoteModal visible={showVoiceModal} onClose={() => setShowVoiceModal(false)}   clerkId={dbUser?.clerkId}/>
       {/* Full image Modal */}
-      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v:any) => setShowProfileImage(v)} />
+      <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v: any) => setShowProfileImage(v)} />
+
 
     </SafeAreaView>
 

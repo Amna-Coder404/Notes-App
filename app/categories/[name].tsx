@@ -12,6 +12,7 @@ const categoryIcons = {
     ideas: "lightbulb",
     goals: "bullseye",
     images: "images",
+    voice: "images",
     other: "folder",
 } as any;
 export default function CategoryDetails() {

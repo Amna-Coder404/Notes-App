@@ -77,7 +77,8 @@ export const notesEditSection = (theme: any) =>
             backgroundColor: "#3b11729a",
             marginRight: 8,
             marginBottom: 8,
-            borderWidth: 1
+            borderWidth: 1,
+            borderColor : theme.border
         },
 
         content: {
@@ -90,5 +91,7 @@ export const notesEditSection = (theme: any) =>
             marginTop: 20,
             fontSize: 12,
             color: theme.mutedText
-        }
+        },
+        
+        
     });

@@ -12,6 +12,7 @@ import EditBtn from "../ui/EditBtn";
 import Loader from "../ui/Loader";
 import NotFound from "../ui/NotFound";
 import { useRouter } from "expo-router";
+import VoiceNoteCard from "./VoiceNoteCard";
 
 
 
@@ -185,9 +186,16 @@ const NotesCards = () => {
                                                     {note.title || "Untitled"}
                                                 </Text>
 
-                                                <Text style={styles.importantNoteText} numberOfLines={4} ellipsizeMode="tail">
-                                                    {note.content}
-                                                </Text>
+
+                                                {note.type === "voice" ? (
+                                                    <VoiceNoteCard audioUrl={note.audioUrl} />
+
+                                                ) : (
+                                                    <Text  style={styles.importantNoteText} numberOfLines={4} ellipsizeMode="tail">
+                                                        {note.content}
+                                                    </Text>
+
+                                                )}
 
 
                                             </View>

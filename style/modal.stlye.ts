@@ -39,7 +39,8 @@ export const modalStlye = (theme: any) =>
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-evenly",
-            gap: 12
+            gap: 12,
+            marginBottom: 36
         },
 
         button: {
@@ -61,15 +62,19 @@ export const modalStlye = (theme: any) =>
             justifyContent: "center",
             alignItems: "center",
             paddingHorizontal: 16,
+           
             backgroundColor: "#a7a7a72b"
         },
 
         centerModalBox: {
+            
             width: "100%",
             backgroundColor: theme.bg,
             borderRadius: 16,
             padding: 16,
-            maxHeight: "85%",
+            maxHeight: "86%",
+            paddingHorizontal: 12,
+            paddingVertical: 33
         },
         text: {
             color: theme.mutedText,

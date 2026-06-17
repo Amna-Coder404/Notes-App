@@ -1,3 +1,4 @@
+import VoiceNoteCard from '@/components/notes/VoiceNoteCard';
 import Loader from '@/components/ui/Loader';
 import NotFound from '@/components/ui/NotFound';
 import { api } from '@/convex/_generated/api';
@@ -61,9 +62,20 @@ const Favorites = () => {
           {note.title || "Untitled"}
         </Text>
 
-        <Text style={styles.importantNoteText} >
-          {note.content}
-        </Text>
+
+
+        {note.type === "voice" ? (
+          <VoiceNoteCard audioUrl={note.audioUrl} />
+        ) : (
+          <Text
+            style={styles.importantNoteText}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {note.content}
+          </Text>
+        )}
+
 
 
         <Text style={styles.noteDate}>
