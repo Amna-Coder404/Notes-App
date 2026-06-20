@@ -123,24 +123,21 @@ export const useNotes = () => {
         });
     };
     const handleDelete = async ({
-        selectedNote,
-        setDeleteModal,
-        setSelectedNote,
-        setEditModalVisible,
-    }: any) => {
-        if (!selectedNote?._id) return;
+    selectedNote,
+    setDeleteModal,
+    setEditModalVisible,
+}: any) => {
+    if (!selectedNote?._id) return;
 
-        try {
-            await deleteNote({ noteId: selectedNote._id });
+    try {
+        await deleteNote({ noteId: selectedNote._id });
 
-            setDeleteModal(false);
-            setSelectedNote(null);
-            setEditModalVisible(false);
-        } catch (error) {
-            console.log("ERROR:", error);
-            throw new Error("Failed to delete");
-        }
-    };
+        setDeleteModal(false);
+        setEditModalVisible?.(false);
+    } catch (error) {
+        console.log("DELETE ERROR:", error);
+    }
+};
     const handleToggleStar = async (noteId: any) => {
         await toggleFavorite({ noteId });
     };

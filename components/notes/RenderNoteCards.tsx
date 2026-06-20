@@ -1,22 +1,20 @@
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/style/home.style";
-import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { formatDistanceToNow } from "date-fns";
+import { AntDesign } from "@expo/vector-icons";
+
 import { useRouter } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import VoiceNoteCard from "./VoiceNoteCard";
 
-export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSelectedNote }: any) => {
-
+export const RenderNotesCards = ({ item }: any) => {
     const { theme } = useTheme();
     const styles = createHomeStyles(theme);
     const router = useRouter();
 
     return (
-
-        <TouchableOpacity
-            style={styles.noteCard}
+       <View>
+         <TouchableOpacity
+            style={styles.keepCard}
             onPress={() =>
                 router.push({
                     pathname: "/notes/[id]",
@@ -24,62 +22,47 @@ export const RenderNotesCards = ({ item, handleToggleStar, setDropdownPos, setSe
                 })
             }
         >
+
+            {/* IMAGE (TOP STYLE LIKE KEEP) */}
             {item.imageUrl && (
                 <Image
                     source={{ uri: item.imageUrl }}
-                    style={styles.noteImage}
+                    style={styles.keepImage}
                     resizeMode="cover"
                 />
             )}
 
-            <View style={styles.noteBetween}>
-                <Text style={[styles.noteTitle, { width: 200 }]} numberOfLines={1} >
+            {/* CONTENT */}
+            <View style={styles.keepContent}>
+
+                <Text style={styles.noteTitle} numberOfLines={2}>
                     {item.title || "Untitled"}
                 </Text>
 
-                <View style={styles.noteBetween}>
-                    <TouchableOpacity onPress={() => handleToggleStar(item._id)}>
-                        <FontAwesome name={item.isFavorite ? "star" : "star-o"} size={18} color={item.isFavorite ? "#CEC436" : theme.text} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={(event) => {
-                            const { pageX, pageY } = event.nativeEvent;
-                            setDropdownPos({ x: pageX, y: pageY });
-                            setSelectedNote(item);
-                        }}
-                    >
-                        <Entypo name="dots-three-vertical" size={20} color={theme.mutedText} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-        
+                {/* VOICE / TEXT SWITCH */}
                 {item.type === "voice" ? (
-                    <VoiceNoteCard audioUrl={item.audioUrl} />
+                    <View style={styles.voiceRow}>
+                        <Text style={styles.noteDescription}>
+                            🎤 Voice note
+                        </Text>
+                        <AntDesign name="play-circle" style={styles.icon} />
+                    </View>
                 ) : (
                     <Text
                         style={styles.noteDescription}
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
+                        numberOfLines={4}
                     >
                         {item.content}
                     </Text>
                 )}
-            {/* </Text> */}
 
-            <View style={styles.noteBetween}>
+                {/* CATEGORY */}
                 <Text style={styles.noteCategory}>
                     {item.categories}
                 </Text>
 
-                <Text style={styles.noteDate}>
-                    {formatDistanceToNow(
-                        new Date(item.createdAt),
-                        { addSuffix: true }
-                    )}
-                </Text>
             </View>
         </TouchableOpacity>
+       </View>
     );
-}
+};

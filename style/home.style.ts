@@ -67,15 +67,6 @@ export const createHomeStyles = (theme: any) =>
       color: theme.text,
     },
 
-    filterBtn: {
-      width: 50,
-      height: 50,
-      borderRadius: 14,
-      backgroundColor: theme.inputBg,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-
     sectionHeader: {
       marginTop: 30,
       marginBottom: 15,
@@ -134,7 +125,8 @@ export const createHomeStyles = (theme: any) =>
     },
 
     noteCard: {
-      justifyContent: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
       backgroundColor: theme.card,
       borderRadius: 18,
       padding: 16,
@@ -154,7 +146,7 @@ export const createHomeStyles = (theme: any) =>
       fontSize: 16,
       fontWeight: "700",
       color: theme.text,
-     
+
     },
 
     noteDate: {
@@ -192,12 +184,9 @@ export const createHomeStyles = (theme: any) =>
       elevation: 5,
       zIndex: 999,
     },
-    editBtn: {
-      flexDirection: 'row', gap: 10, padding: 8
-    },
+
     cardContainer: {
 
-      marginBottom: 40
     },
     selectCategory: {
       backgroundColor: theme.primary,
@@ -221,14 +210,9 @@ export const createHomeStyles = (theme: any) =>
       marginTop: 6,
       color: "#666",
     },
-    noteImage: {
-      width: "100%",
-      height: 160,
-      borderRadius: 12,
-      marginBottom: 10,
-    },
 
-    // Pinned & Fav card
+
+    // Pinned & Fav & all note card
     importantCard: {
       flexDirection: "row",
       alignItems: "flex-start",
@@ -252,6 +236,44 @@ export const createHomeStyles = (theme: any) =>
       borderRadius: 10,
       flexShrink: 0,
     },
- 
 
+
+    icon: {
+      fontSize: 22,
+      marginTop: 12,
+      color: theme.icon
+    },
+
+
+    keepCard: {
+      
+      backgroundColor: theme.card,
+      borderRadius: 16,
+      padding: 12,
+      marginBottom: 12,
+
+      // 🔥 KEEP FIX (NO ROW)
+      alignSelf: "flex-start",
+      width: "100%",
+      borderWidth: 1,
+      borderColor: theme.border,
+    },
+
+    keepImage: {
+      width: "100%",
+      height: 120,
+      borderRadius: 12,
+      marginBottom: 8,
+    },
+
+    keepContent: {
+      flex: 1
+    },
+
+    voiceRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop: 6,
+    },
   });

@@ -89,19 +89,19 @@ export const createStyles = (theme: any) =>
       marginBottom: 25,
       overflow: "hidden",
       maxHeight: 350,
-      
-     
+
+
     },
 
-    dropDownListInEdit :{
-       position: "absolute",
+    dropDownListInEdit: {
+      position: "absolute",
       top: 350, // adjust based on dropdown height
       left: 0,
       right: 0,
 
       zIndex: 9999,
       elevation: 10, // Android fix
-      margin:12
+      margin: 12
     },
 
     dropdownItem: {
@@ -140,6 +140,5 @@ export const createStyles = (theme: any) =>
 
 
 
-    
 
   });

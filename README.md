@@ -8,6 +8,8 @@ A mobile notes app built with Expo, React Native, Clerk, and Convex.
 - Create, edit, delete, pin, and favorite notes
 - Search and filter notes by category
 - Upload images to notes
+-  Voice notes (record, play, and manage audio notes)
+
 - Light and dark theme
 - Profile screen with logout and reset
 
