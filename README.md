@@ -4,7 +4,7 @@ A mobile notes app built with Expo, React Native, Clerk, and Convex.
 
 ## 📱 Preview
 
-**[Download Android APK](https://expo.dev/accounts/devamna/projects/Notes-App/builds/a3cb0fac-a4ca-410d-a2e4-dd870288646c)**
+**[Download Android APK](https://expo.dev/accounts/devamna/projects/Notes-App/builds/663251d8-3fcc-4b6a-8ba7-f272efaa47b2)**
 
 ## Features
 
