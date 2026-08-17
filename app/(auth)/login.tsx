@@ -1,10 +1,11 @@
 
+import Loader from '@/components/ui/Loader';
 import { useTheme } from '@/hooks/useTheme';
 import { createLoginStyles } from '@/style/login.styles';
 import { useSSO } from '@clerk/clerk-expo';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,20 +16,26 @@ const Login = () => {
 
   const { startSSOFlow } = useSSO();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {
     try {
+      setLoading(true);
+
       const { createdSessionId, setActive } = await startSSOFlow({ strategy: "oauth_google" });
 
       if (setActive && createdSessionId) {
-        setActive({ session: createdSessionId })
+        await setActive({ session: createdSessionId })
         router.replace("/(tabs)");
       }
     } catch (error) {
       console.log("OAuth error : ", error);
+      setLoading(false);
     }
   }
-
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <SafeAreaView style={styles.container}>

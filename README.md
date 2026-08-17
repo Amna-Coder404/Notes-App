@@ -2,9 +2,13 @@
 
 A mobile notes app built with Expo, React Native, Clerk, and Convex.
 
-## 📱 Preview
+## 📱 Download APK
 
-**[Download Android APK](https://expo.dev/accounts/devamna/projects/Notes-App/builds/a08b16fb-a5a2-4758-b86c-45a34c7ea41b)**
+Want to try the Book Store App on Android?
+
+👉 **[Download the latest APK](https://expo.dev/accounts/devamna/projects/Notes-App/builds/39945e48-8a8b-4d98-b95b-d1cecf73caab)**
+
+> **Note:** This APK is for Android devices. You may need to allow installation from unknown sources when installing it.
 
 ## Features
 
@@ -16,6 +20,7 @@ A mobile notes app built with Expo, React Native, Clerk, and Convex.
 - Light and dark theme
 - Profile screen with logout and reset
 
+
 ## Tech Stack
 
 - Expo SDK 54
@@ -25,7 +30,3 @@ A mobile notes app built with Expo, React Native, Clerk, and Convex.
 - Clerk
 - Convex
 
-## Setup
-
-```bash
-npm install

@@ -5,6 +5,7 @@ import { createStyles } from '@/style/create.stlye';
 import { modalStlye } from '@/style/modal.stlye';
 import React, { useEffect, useState } from 'react';
 import { Image, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AppModal from '../ui/AppModal';
 
 
 
@@ -77,7 +78,7 @@ export default function EditNoteModal({
     };
 
     return (
-        <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+        <AppModal visible={visible} animationType="slide" onRequestClose={onClose}>
             <KeyboardAvoidingView style={styles.centerModalOverlay} >
                 <ScrollView style={styles.centerModalBox}>
 
@@ -182,8 +183,8 @@ export default function EditNoteModal({
 
                 </ScrollView>
             </KeyboardAvoidingView>
-           
-        </Modal>
+
+        </AppModal>
     );
 }
 // DELETE MODAL 

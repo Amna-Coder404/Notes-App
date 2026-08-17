@@ -7,8 +7,9 @@ import { modalStlye } from '@/style/modal.stlye';
 import { Ionicons } from '@expo/vector-icons';
 import { useMutation } from 'convex/react';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import AppModal from "@/components/ui/AppModal";
 
 const CreateTextNotes = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
@@ -17,7 +18,7 @@ const CreateTextNotes = ({ visible, onClose }: any) => {
     const { dbUser } = useDbUser();
     const { categories } = useNotes();
 
-    
+
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -49,7 +50,7 @@ const CreateTextNotes = ({ visible, onClose }: any) => {
         }
 
         if (hasError) return;
-        
+
         setLoading(true);
         try {
             await createNote({
@@ -74,7 +75,7 @@ const CreateTextNotes = ({ visible, onClose }: any) => {
         }
     }
     const handleClose = () => {
-       
+
         setTitle("");
         setContent("");
         setCategory("");
@@ -82,7 +83,13 @@ const CreateTextNotes = ({ visible, onClose }: any) => {
     };
 
     return (
-        <Modal visible={visible} animationType="slide" transparent={false} onRequestClose={handleClose}>
+        <AppModal
+            visible={visible}
+            onRequestClose={handleClose}
+            backgroundColor={theme.background}
+            animationType="slide"
+        >
+
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={modalStlyes.modalContainer}
@@ -178,7 +185,8 @@ const CreateTextNotes = ({ visible, onClose }: any) => {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </Modal>
+
+        </AppModal>
     )
 }
 

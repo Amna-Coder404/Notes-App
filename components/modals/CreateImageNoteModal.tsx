@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import {
-    Modal,
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    ScrollView,
+    Image,
     KeyboardAvoidingView,
     Platform,
-    Image,
+    ScrollView,
+    Text, TextInput, TouchableOpacity,
+    View
 } from "react-native";
 
 
@@ -17,10 +14,11 @@ import { useMutation } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { useDbUser } from "@/hooks/useDbUser";
-import { useTheme } from "@/hooks/useTheme";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useTheme } from "@/hooks/useTheme";
 import { createStyles } from "@/style/create.stlye";
 import { modalStlye } from "@/style/modal.stlye";
+import AppModal from "../ui/AppModal";
 
 const CreateImageNoteModal = ({ visible, onClose }: any) => {
     const { theme } = useTheme();
@@ -80,7 +78,10 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
     };
 
     return (
-        <Modal visible={visible} animationType="slide" onRequestClose={handleClose}>
+        <AppModal visible={visible}
+            onRequestClose={handleClose}
+            backgroundColor={theme.background}
+            animationType="slide">
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={modalStyles.modalContainer}>
                 {/* HEADER */}
                 <View style={modalStyles.modalHeader}>
@@ -153,7 +154,8 @@ const CreateImageNoteModal = ({ visible, onClose }: any) => {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </Modal>
+
+        </AppModal>
     );
 };
 

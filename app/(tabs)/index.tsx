@@ -7,6 +7,7 @@ import FullImageModal from '@/components/notes/FullImageMode'
 
 import NotesCards from '@/components/notes/NotesCards'
 import { useDbUser } from '@/hooks/useDbUser'
+import { useNetworkStatus } from '@/hooks/useNetworkStatus'
 
 import { useTheme } from '@/hooks/useTheme'
 import { createHomeStyles } from '@/style/home.style'
@@ -14,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import OfflineCreateModal from "../../components/ui/OfflineCreateModal"
 
 const Home = () => {
   const { theme } = useTheme();
@@ -29,7 +30,8 @@ const Home = () => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [showVoiceModal, setShowVoiceModal] = useState(false);
 
-
+  const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const { isOnline } = useNetworkStatus();
   return (
     <SafeAreaView style={styles.container}>
 
@@ -57,29 +59,41 @@ const Home = () => {
       </View>
 
       <NotesCards />
-    
 
       <CreateOptionsModal
         visible={showOptions}
         onClose={() => setShowOptions(false)}
-
         onSelect={(type: string) => {
           setShowOptions(false);
 
-          if (type === "text") setShowTextModal(true);
-          if (type === "image") setShowImageModal(true);
-          if (type === "voice") { setShowVoiceModal(true) }
+          if (!isOnline) {
+            setShowOfflineModal(true);
+            return;
+          }
+
+          if (type === "text") {
+            setShowTextModal(true);
+          }
+
+          if (type === "image") {
+            setShowImageModal(true);
+          }
+
+          if (type === "voice") {
+            setShowVoiceModal(true);
+          }
         }}
       />
 
-
-
-
+      <OfflineCreateModal
+        visible={showOfflineModal}
+        onClose={() => setShowOfflineModal(false)}
+      />
 
       {/* Create Notes modal s */}
       <CreateTextNotes visible={showTextModal} onClose={() => setShowTextModal(false)} />
       <CreateImageNoteModal visible={showImageModal} onClose={() => setShowImageModal(false)} />
-      <CreateVoiceNoteModal visible={showVoiceModal} onClose={() => setShowVoiceModal(false)}   clerkId={dbUser?.clerkId}/>
+      <CreateVoiceNoteModal visible={showVoiceModal} onClose={() => setShowVoiceModal(false)} clerkId={dbUser?.clerkId} />
       {/* Full image Modal */}
       <FullImageModal imageUrl={dbUser?.imageUrl || null} visible={showProfileImage} setVisible={(v: any) => setShowProfileImage(v)} />
 

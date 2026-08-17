@@ -1,5 +1,7 @@
 import Initiallayout from "@/components/Initiallayout";
+import OfflineBanner from "@/components/ui/OfflineBanner";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
 import ClerkAndConvexProvider from "@/providers/ClerkAndConvexProvider";
 import { SplashScreen } from "expo-router";
@@ -12,7 +14,9 @@ import * as NavigationBar from "expo-navigation-bar";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
- 
+  const { isOnline } = useNetworkStatus();
+
+
   useEffect(() => {
     async function prepare() {
       // Load fonts, auth, etc.
@@ -32,7 +36,7 @@ export default function RootLayout() {
     <ThemeProvider>
       <ClerkAndConvexProvider>
         <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-  
+          {!isOnline && <OfflineBanner />}
           <Initiallayout />
 
         </SafeAreaView>
