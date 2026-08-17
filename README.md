@@ -10,6 +10,11 @@ Want to try the Book Store App on Android?
 
 > **Note:** This APK is for Android devices. You may need to allow installation from unknown sources when installing it.
 
+
+## 📱 App Preview
+
+![NoteApp Preview](./assets/images/demo-app.png)
+
 ## Features
 
 - Google sign-in with Clerk
