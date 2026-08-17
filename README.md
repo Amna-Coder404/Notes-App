@@ -19,7 +19,7 @@ Want to try the Book Store App on Android?
 - Voice notes (record, play, and manage audio notes)
 - Light and dark theme
 - Profile screen with logout and reset
-
+- Internet connection status detection with NetInfo
 
 ## Tech Stack
 
@@ -30,3 +30,4 @@ Want to try the Book Store App on Android?
 - Clerk
 - Convex
 
+- @react-native-community/netinfo — used to check internet connectivity and detect offline status
